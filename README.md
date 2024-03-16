@@ -10,9 +10,11 @@
 <br>
 
 ## 와이어프레임
-|메인 화면|프로필 화면|
-|---|---|
-|<img src="https://github.com/f-lab-edu/pub-sub/assets/65343417/25ea243b-f802-484f-a7f4-b63f76478a8b">|<img src="https://github.com/f-lab-edu/pub-sub/assets/65343417/840bf271-d9d0-41db-9a82-0fdafac6d8e6">
+### 메인 화면
+![main](https://github.com/f-lab-edu/pub-sub/assets/65343417/245f3afe-f979-4946-9938-f505571142dc)
+
+### 프로필 화면
+![profile](https://github.com/f-lab-edu/pub-sub/assets/65343417/948b9de5-8552-43c7-8df9-4e5b44cfff08)
 
 <br>
 
