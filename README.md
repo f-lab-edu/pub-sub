@@ -46,10 +46,19 @@
 |  | 메서드 | Endpoint | 쿼리 파라미터 |
 | --- | --- | --- | --- |
 | 메인화면 게시물 조회 | GET | / |  |
-| 게시물 생성 | POST | /posts |  |
+| 게시물 작성 | POST | /posts |  |
 | 특정 게시물 조회 | GET | /posts | postId |
 | 게시물 수정 | PUT | /posts/{postId} |  |
 | 게시물 삭제 | DELETE | /posts/{postId} |  |
+| 게시물 좋아요 | POST | /likes/like |  |
+| 게시물 좋아요 취소 | POST | /likes/removelike |  |
+
+### 댓글
+|  | 메서드 | Endpoint |
+| --- | --- | --- |
+| 댓글 작성 | POST | /comments |
+| 댓글 수정 | PUT | /comments/{commentId} |
+| 댓글 삭제 | DELETE | /comments/{commentId} |
 
 <br>
 
