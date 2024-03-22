@@ -51,7 +51,7 @@
 | 게시물 수정 | PUT | /posts/{postId} |  |
 | 게시물 삭제 | DELETE | /posts/{postId} |  |
 | 게시물 좋아요 | POST | /likes/like |  |
-| 게시물 좋아요 취소 | POST | /likes/removelike |  |
+| 게시물 좋아요 취소 | POST | /likes/remove-like |  |
 
 ### 댓글
 |  | 메서드 | Endpoint |
