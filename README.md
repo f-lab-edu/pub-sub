@@ -1,5 +1,6 @@
 - [프로젝트 소개](#pub-sub)
 - [와이어프레임](#와이어프레임)
+- [ERD](#ERD)
 - [브랜치 전략](#브랜치-전략)
 
 <br>
@@ -15,6 +16,12 @@
 
 ### 프로필 화면
 ![profile](https://github.com/f-lab-edu/pub-sub/assets/65343417/948b9de5-8552-43c7-8df9-4e5b44cfff08)
+
+<br>
+
+## ERD
+(완성되면 이미지로 교체 예정)
+- https://www.erdcloud.com/d/brDjdwe2aGKvc33gu
 
 <br>
 
