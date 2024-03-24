@@ -20,10 +20,8 @@
 
 <br>
 
-## ERD
-(완성되면 이미지 교체 예정)
-https://www.erdcloud.com/d/brDjdwe2aGKvc33gu
-![pub-sub-erd](https://github.com/f-lab-edu/pub-sub/assets/65343417/74f11dcf-2b2c-4a83-a2ee-a13be8d89d17)
+## [ERD](https://www.erdcloud.com/d/brDjdwe2aGKvc33gu)
+![pub-sub-erd](https://github.com/f-lab-edu/pub-sub/assets/65343417/e5eff15c-3837-4eec-86ab-b5c4f844d636)
 
 <br>
 
