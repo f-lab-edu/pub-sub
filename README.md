@@ -21,9 +21,10 @@
 <br>
 
 ## [ERD](https://www.erdcloud.com/d/brDjdwe2aGKvc33gu)
-![pub-sub-erd](https://github.com/f-lab-edu/pub-sub/assets/65343417/783817a6-4544-4350-ad43-9be8346e51a3)
+![pub-sub-erd](https://github.com/f-lab-edu/pub-sub/assets/65343417/2e752d03-2caa-4851-918c-917af9c28570)
 
 <br>
+
 
 ## API 명세
 ### 로그인/회원가입
