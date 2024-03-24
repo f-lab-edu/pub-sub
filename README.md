@@ -1,5 +1,6 @@
 - [프로젝트 소개](#pub-sub)
 - [와이어프레임](#와이어프레임)
+- [ERD](#ERD)
 - [API 명세](#API-명세)
 - [브랜치 전략](#브랜치-전략)
 
@@ -18,6 +19,12 @@
 ![profile](https://github.com/f-lab-edu/pub-sub/assets/65343417/948b9de5-8552-43c7-8df9-4e5b44cfff08)
 
 <br>
+
+## [ERD](https://www.erdcloud.com/d/brDjdwe2aGKvc33gu)
+![pub-sub-erd](https://github.com/f-lab-edu/pub-sub/assets/65343417/2e752d03-2caa-4851-918c-917af9c28570)
+
+<br>
+
 
 ## API 명세
 ### 로그인/회원가입
