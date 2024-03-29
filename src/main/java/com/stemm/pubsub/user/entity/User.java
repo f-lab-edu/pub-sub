@@ -42,7 +42,7 @@ public class User extends BaseEntity {
     private String bio;
 
     @Builder
-    public User(
+    private User(
             Membership membership,
             String username,
             String name,
