@@ -21,7 +21,7 @@
 <br>
 
 ## [ERD](https://www.erdcloud.com/d/brDjdwe2aGKvc33gu)
-![pub-sub-erd](https://github.com/f-lab-edu/pub-sub/assets/65343417/2e752d03-2caa-4851-918c-917af9c28570)
+![pub-sub-erd](https://github.com/f-lab-edu/pub-sub/assets/65343417/d15dac22-5248-4aca-b429-c41e720488f2)
 
 <br>
 
