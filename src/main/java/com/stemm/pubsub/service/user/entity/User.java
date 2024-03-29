@@ -1,4 +1,4 @@
-package com.stemm.pubsub.user.entity;
+package com.stemm.pubsub.service.user.entity;
 
 import com.stemm.pubsub.common.BaseEntity;
 import jakarta.persistence.*;

@@ -1,12 +1,11 @@
-package com.stemm.pubsub.post.entity;
+package com.stemm.pubsub.service.post.entity;
 
 import com.stemm.pubsub.common.BaseEntity;
-import com.stemm.pubsub.user.entity.User;
+import com.stemm.pubsub.service.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -14,12 +13,16 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @Entity
-@Table(indexes = @Index(name = "idx_post_created_date", columnList = "created_date"))
-public class Post extends BaseEntity {
+@Table(indexes = @Index(name = "idx_comment_created_date", columnList = "created_date"))
+public class Comment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "post_id")
+    @Column(name = "comment_id")
     private Long id;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
@@ -29,16 +32,13 @@ public class Post extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
-    private String imageUrl;
-
-    @Enumerated(STRING)
     @Column(nullable = false)
-    private Visibility visibility;
+    private Long likeCount;
 
-    public Post(User user, String content, String imageUrl, Visibility visibility) {
+    public Comment(Post post, User user, String content, Long likeCount) {
+        this.post = post;
         this.user = user;
         this.content = content;
-        this.imageUrl = imageUrl;
-        this.visibility = visibility;
+        this.likeCount = likeCount;
     }
 }

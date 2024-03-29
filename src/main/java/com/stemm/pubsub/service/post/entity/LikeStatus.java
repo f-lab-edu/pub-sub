@@ -1,4 +1,4 @@
-package com.stemm.pubsub.post.entity;
+package com.stemm.pubsub.service.post.entity;
 
 public enum LikeStatus {
     LIKE,
