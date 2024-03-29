@@ -14,10 +14,11 @@ import java.time.LocalDateTime;
 @Getter
 @MappedSuperclass
 public abstract class BaseEntity {
-    @Column(updatable = false)
     @CreatedDate
+    @Column(updatable = false, nullable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
+    @Column(nullable = false)
     private LocalDateTime lastModifiedDate;
 }
