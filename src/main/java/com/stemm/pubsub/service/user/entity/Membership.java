@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+@Entity
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-@Entity
 public class Membership extends BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)

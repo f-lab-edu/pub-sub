@@ -10,10 +10,10 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-@NoArgsConstructor(access = PROTECTED)
-@Getter
 @Entity
 @Table(indexes = @Index(name = "idx_subscription_created_date", columnList = "created_date"))
+@NoArgsConstructor(access = PROTECTED)
+@Getter
 public class Subscription extends BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)

@@ -10,10 +10,10 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-@NoArgsConstructor(access = PROTECTED)
-@Getter
 @Entity
 @Table(indexes = @Index(name = "idx_comment_created_date", columnList = "created_date"))
+@NoArgsConstructor(access = PROTECTED)
+@Getter
 public class Comment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)

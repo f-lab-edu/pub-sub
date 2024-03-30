@@ -10,13 +10,13 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-@NoArgsConstructor(access = PROTECTED)
-@Getter
 @Entity
 @Table(
-        name = "users",
-        indexes = @Index(name = "idx_users_created_date", columnList = "created_date")
+    name = "users",
+    indexes = @Index(name = "idx_users_created_date", columnList = "created_date")
 )
+@NoArgsConstructor(access = PROTECTED)
+@Getter
 public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -43,12 +43,12 @@ public class User extends BaseEntity {
 
     @Builder
     private User(
-            Membership membership,
-            String username,
-            String name,
-            String email,
-            String profileImageUrl,
-            String bio
+        Membership membership,
+        String username,
+        String name,
+        String email,
+        String profileImageUrl,
+        String bio
     ) {
         this.membership = membership;
         this.username = username;

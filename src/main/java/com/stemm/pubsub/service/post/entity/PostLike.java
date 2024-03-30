@@ -11,9 +11,9 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+@Entity
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-@Entity
 public class PostLike extends BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
