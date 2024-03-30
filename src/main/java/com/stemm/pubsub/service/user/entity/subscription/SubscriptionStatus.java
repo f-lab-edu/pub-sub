@@ -1,4 +1,4 @@
-package com.stemm.pubsub.service.user.entity;
+package com.stemm.pubsub.service.user.entity.subscription;
 
 public enum SubscriptionStatus {
     ACTIVE,
