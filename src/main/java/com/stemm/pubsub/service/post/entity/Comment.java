@@ -1,6 +1,7 @@
 package com.stemm.pubsub.service.post.entity;
 
 import com.stemm.pubsub.common.BaseEntity;
+import com.stemm.pubsub.service.post.entity.post.Post;
 import com.stemm.pubsub.service.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
