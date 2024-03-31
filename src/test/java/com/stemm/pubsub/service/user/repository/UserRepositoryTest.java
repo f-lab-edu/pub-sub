@@ -4,16 +4,12 @@ import com.stemm.pubsub.common.RepositoryTestSupport;
 import com.stemm.pubsub.service.user.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class UserRepositoryTest extends RepositoryTestSupport {
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Test
     @DisplayName("닉네임으로 유저를 조회합니다.")

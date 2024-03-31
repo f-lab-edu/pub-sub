@@ -4,11 +4,8 @@ import com.stemm.pubsub.common.RepositoryTestSupport;
 import com.stemm.pubsub.service.user.entity.Membership;
 import com.stemm.pubsub.service.user.entity.User;
 import com.stemm.pubsub.service.user.entity.subscription.Subscription;
-import com.stemm.pubsub.service.user.repository.MembershipRepository;
-import com.stemm.pubsub.service.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -18,15 +15,6 @@ import static java.util.Comparator.reverseOrder;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SubscriptionTimeBasedQueryRepositoryImplTest extends RepositoryTestSupport {
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private MembershipRepository membershipRepository;
-
-    @Autowired
-    private SubscriptionRepository subscriptionRepository;
 
     @Test
     @DisplayName("유저가 구독한 멤버십을 최신 순으로 조회합니다.")
