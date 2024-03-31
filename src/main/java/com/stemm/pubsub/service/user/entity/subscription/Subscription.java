@@ -31,7 +31,7 @@ public class Subscription extends BaseEntity {
     private Membership membership;
 
     @Enumerated(STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private SubscriptionStatus status;
 
     public Subscription(User user, Membership membership, SubscriptionStatus status) {

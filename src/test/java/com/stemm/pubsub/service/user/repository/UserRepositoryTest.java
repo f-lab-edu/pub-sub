@@ -1,20 +1,15 @@
 package com.stemm.pubsub.service.user.repository;
 
-import com.stemm.pubsub.common.utils.DataJpaTestWithAuditing;
+import com.stemm.pubsub.common.RepositoryTestSupport;
 import com.stemm.pubsub.service.user.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTestWithAuditing
-class UserRepositoryTest {
-
-    @Autowired
-    private UserRepository userRepository;
+class UserRepositoryTest extends RepositoryTestSupport {
 
     @Test
     @DisplayName("닉네임으로 유저를 조회합니다.")

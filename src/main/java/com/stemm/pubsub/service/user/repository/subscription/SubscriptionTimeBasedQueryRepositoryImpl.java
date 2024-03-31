@@ -10,11 +10,11 @@ import java.util.List;
 import static com.stemm.pubsub.service.user.entity.subscription.QSubscription.subscription;
 import static com.stemm.pubsub.service.user.entity.subscription.SubscriptionStatus.ACTIVE;
 
-public class CustomSubscriptionRepositoryImpl implements CustomSubscriptionRepository {
+public class SubscriptionTimeBasedQueryRepositoryImpl implements SubscriptionTimeBasedQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public CustomSubscriptionRepositoryImpl(EntityManager entityManager) {
+    public SubscriptionTimeBasedQueryRepositoryImpl(EntityManager entityManager) {
         queryFactory = new JPAQueryFactory(entityManager);
     }
 
