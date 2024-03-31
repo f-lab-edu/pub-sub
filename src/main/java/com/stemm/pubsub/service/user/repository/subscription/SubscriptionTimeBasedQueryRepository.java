@@ -4,7 +4,7 @@ import com.stemm.pubsub.service.user.entity.subscription.Subscription;
 
 import java.util.List;
 
-public interface CustomSubscriptionRepository {
+public interface SubscriptionTimeBasedQueryRepository {
     List<Subscription> findNewestSubscriptions(Long userId);
     List<Subscription> findOldestSubscriptions(Long userId);
 }

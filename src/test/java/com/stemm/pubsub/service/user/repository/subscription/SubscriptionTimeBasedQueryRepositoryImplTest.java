@@ -18,7 +18,7 @@ import static java.util.Comparator.reverseOrder;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTestWithAuditing
-class SubscriptionRepositoryTest {
+class SubscriptionTimeBasedQueryRepositoryImplTest {
 
     @Autowired
     private UserRepository userRepository;
