@@ -23,7 +23,7 @@ public class SubscriptionTimeBasedQueryRepositoryImpl implements SubscriptionTim
     public List<Subscription> findNewestSubscriptions(Long userId) {
         return queryFactory
             .selectFrom(subscription)
-            .join(subscription.membership, membership)
+            .join(subscription.membership, membership).fetchJoin()
             .where(userIdEquals(userId), isActive())
             .orderBy(subscription.createdDate.desc())
             .fetch();
@@ -33,7 +33,7 @@ public class SubscriptionTimeBasedQueryRepositoryImpl implements SubscriptionTim
     public List<Subscription> findOldestSubscriptions(Long userId) {
         return queryFactory
             .selectFrom(subscription)
-            .join(subscription.membership, membership)
+            .join(subscription.membership, membership).fetchJoin()
             .where(userIdEquals(userId), isActive())
             .orderBy(subscription.createdDate.asc())
             .fetch();
