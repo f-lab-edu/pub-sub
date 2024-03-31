@@ -4,3 +4,7 @@ spring:
     group:
       local: local, common
       prod: prod, common
+
+  jpa:
+    hibernate:
+      ddl-auto: none
