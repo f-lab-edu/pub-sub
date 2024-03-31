@@ -29,7 +29,7 @@ public class PostLike extends BaseEntity {
     private User user;
 
     @Enumerated(STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private LikeStatus status;
 
     public PostLike(Post post, User user, LikeStatus status) {

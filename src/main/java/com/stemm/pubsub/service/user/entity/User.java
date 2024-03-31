@@ -27,7 +27,7 @@ public class User extends BaseEntity {
     @JoinColumn(name = "membership_id")
     private Membership membership;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 100)
     private String nickname;
 
     @Column(nullable = false)

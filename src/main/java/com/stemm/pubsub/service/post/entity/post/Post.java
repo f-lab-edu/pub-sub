@@ -32,7 +32,7 @@ public class Post extends BaseEntity {
     private String imageUrl;
 
     @Enumerated(STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private Visibility visibility;
 
     public Post(User user, String content, String imageUrl, Visibility visibility) {

@@ -34,9 +34,9 @@ public class Comment extends BaseEntity {
     private String content;
 
     @Column(nullable = false)
-    private Long likeCount;
+    private int likeCount;
 
-    public Comment(Post post, User user, String content, Long likeCount) {
+    public Comment(Post post, User user, String content, int likeCount) {
         this.post = post;
         this.user = user;
         this.content = content;

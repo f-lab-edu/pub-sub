@@ -20,7 +20,7 @@ public class Membership extends BaseEntity {
     @Column(name = "membership_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String name;
 
     @Column(nullable = false)
