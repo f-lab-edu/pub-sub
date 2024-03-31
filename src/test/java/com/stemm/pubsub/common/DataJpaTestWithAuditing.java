@@ -1,4 +1,4 @@
-package com.stemm.pubsub.common.utils;
+package com.stemm.pubsub.common;
 
 import com.stemm.pubsub.common.config.JpaAuditingConfig;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

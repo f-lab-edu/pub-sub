@@ -1,6 +1,6 @@
 package com.stemm.pubsub.service.user.repository.subscription;
 
-import com.stemm.pubsub.common.utils.DataJpaTestWithAuditing;
+import com.stemm.pubsub.common.RepositoryTestSupport;
 import com.stemm.pubsub.service.user.entity.Membership;
 import com.stemm.pubsub.service.user.entity.User;
 import com.stemm.pubsub.service.user.entity.subscription.Subscription;
@@ -17,8 +17,7 @@ import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.reverseOrder;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTestWithAuditing
-class SubscriptionTimeBasedQueryRepositoryImplTest {
+class SubscriptionTimeBasedQueryRepositoryImplTest extends RepositoryTestSupport {
 
     @Autowired
     private UserRepository userRepository;
