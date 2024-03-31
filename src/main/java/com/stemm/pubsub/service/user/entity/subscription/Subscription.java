@@ -1,6 +1,8 @@
-package com.stemm.pubsub.service.user.entity;
+package com.stemm.pubsub.service.user.entity.subscription;
 
 import com.stemm.pubsub.common.BaseEntity;
+import com.stemm.pubsub.service.user.entity.Membership;
+import com.stemm.pubsub.service.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

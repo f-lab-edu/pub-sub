@@ -28,7 +28,7 @@ public class User extends BaseEntity {
     private Membership membership;
 
     @Column(nullable = false, unique = true)
-    private String username;
+    private String nickname;
 
     @Column(nullable = false)
     private String name;
@@ -44,14 +44,14 @@ public class User extends BaseEntity {
     @Builder
     private User(
         Membership membership,
-        String username,
+        String nickname,
         String name,
         String email,
         String profileImageUrl,
         String bio
     ) {
         this.membership = membership;
-        this.username = username;
+        this.nickname = nickname;
         this.name = name;
         this.email = email;
         this.profileImageUrl = profileImageUrl;
