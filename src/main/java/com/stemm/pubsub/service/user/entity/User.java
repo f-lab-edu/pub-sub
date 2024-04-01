@@ -23,6 +23,9 @@ public class User extends BaseEntity {
     @Column(name = "user_id")
     private Long id;
 
+    /**
+     * 유저가 생성한 멤버십
+     */
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "membership_id")
     private Membership membership;
