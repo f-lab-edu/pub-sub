@@ -9,7 +9,7 @@ public record PostResponseDto(
     String imageUrl,
     LocalDateTime createdDate,
     LocalDateTime lastModifiedDate,
-    long likeCount,
-    long dislikeCount
+    int likeCount,
+    int dislikeCount
 ) {
 }
