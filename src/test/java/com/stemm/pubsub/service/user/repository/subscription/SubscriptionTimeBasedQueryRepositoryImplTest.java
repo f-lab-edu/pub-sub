@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static com.stemm.pubsub.service.user.entity.subscription.SubscriptionStatus.ACTIVE;
-import static java.util.Comparator.naturalOrder;
-import static java.util.Comparator.reverseOrder;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SubscriptionTimeBasedQueryRepositoryImplTest extends RepositoryTestSupport {
@@ -48,8 +46,9 @@ class SubscriptionTimeBasedQueryRepositoryImplTest extends RepositoryTestSupport
         // then
         assertThat(newestSubscriptions)
             .hasSize(3)
-            .extracting(Subscription::getCreatedDate)
-            .isSortedAccordingTo(reverseOrder());
+            .extracting(Subscription::getMembership)
+            .extracting(Membership::getName)
+            .containsExactly("membership3", "membership2", "membership1");
     }
 
     @Test
@@ -67,8 +66,9 @@ class SubscriptionTimeBasedQueryRepositoryImplTest extends RepositoryTestSupport
         // then
         assertThat(oldestSubscriptions)
             .hasSize(3)
-            .extracting(Subscription::getCreatedDate)
-            .isSortedAccordingTo(naturalOrder());
+            .extracting(Subscription::getMembership)
+            .extracting(Membership::getName)
+            .containsExactly("membership1", "membership2", "membership3");
     }
 
     private User createUser() {
