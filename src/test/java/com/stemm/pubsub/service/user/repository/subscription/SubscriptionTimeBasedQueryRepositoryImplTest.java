@@ -40,6 +40,8 @@ class SubscriptionTimeBasedQueryRepositoryImplTest extends RepositoryTestSupport
         Subscription subscription3 = new Subscription(user, membership3, ACTIVE);
         subscriptionRepository.saveAll(List.of(subscription1, subscription2, subscription3));
 
+        entityManager.clear();
+
         // when
         List<Subscription> newestSubscriptions = subscriptionRepository.findNewestSubscriptions(user.getId());
 
@@ -59,6 +61,8 @@ class SubscriptionTimeBasedQueryRepositoryImplTest extends RepositoryTestSupport
         Subscription subscription2 = new Subscription(user, membership2, ACTIVE);
         Subscription subscription3 = new Subscription(user, membership3, ACTIVE);
         subscriptionRepository.saveAll(List.of(subscription1, subscription2, subscription3));
+
+        entityManager.clear();
 
         // when
         List<Subscription> oldestSubscriptions = subscriptionRepository.findOldestSubscriptions(user.getId());
