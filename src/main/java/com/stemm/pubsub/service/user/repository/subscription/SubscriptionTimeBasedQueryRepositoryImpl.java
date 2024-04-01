@@ -24,7 +24,7 @@ public class SubscriptionTimeBasedQueryRepositoryImpl implements SubscriptionTim
         return queryFactory
             .selectFrom(subscription)
             .join(subscription.membership, membership).fetchJoin()
-            .where(userIdEquals(userId), isActive())
+            .where(isMySubscription(userId), isActiveSubscription())
             .orderBy(subscription.createdDate.desc())
             .fetch();
     }
@@ -34,16 +34,16 @@ public class SubscriptionTimeBasedQueryRepositoryImpl implements SubscriptionTim
         return queryFactory
             .selectFrom(subscription)
             .join(subscription.membership, membership).fetchJoin()
-            .where(userIdEquals(userId), isActive())
+            .where(isMySubscription(userId), isActiveSubscription())
             .orderBy(subscription.createdDate.asc())
             .fetch();
     }
 
-    private BooleanExpression userIdEquals(Long userId) {
+    private BooleanExpression isMySubscription(Long userId) {
         return subscription.user.id.eq(userId);
     }
 
-    private BooleanExpression isActive() {
+    private BooleanExpression isActiveSubscription() {
         return subscription.status.eq(ACTIVE);
     }
 }
