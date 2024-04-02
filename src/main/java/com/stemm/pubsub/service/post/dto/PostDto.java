@@ -1,8 +1,8 @@
-package com.stemm.pubsub.service.post.dto.response;
+package com.stemm.pubsub.service.post.dto;
 
 import java.time.LocalDateTime;
 
-public record PostResponseDto(
+public record PostDto(
     Long id,
     String nickname,
     String content,

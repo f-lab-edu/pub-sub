@@ -3,7 +3,7 @@ package com.stemm.pubsub.service.post.repository.post;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.stemm.pubsub.service.post.dto.response.PostResponseDto;
+import com.stemm.pubsub.service.post.dto.PostDto;
 import com.stemm.pubsub.service.post.entity.post.Visibility;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
@@ -20,29 +20,29 @@ import static com.stemm.pubsub.service.post.entity.post.Visibility.PRIVATE;
 import static com.stemm.pubsub.service.post.entity.post.Visibility.PUBLIC;
 import static org.springframework.data.support.PageableExecutionUtils.getPage;
 
-public class PostVisibilityBasedQueryRepositoryImpl implements PostVisibilityBasedQueryRepository {
+public class PostVisibilityRepositoryImpl implements PostVisibilityRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public PostVisibilityBasedQueryRepositoryImpl(EntityManager entityManager) {
+    public PostVisibilityRepositoryImpl(EntityManager entityManager) {
         queryFactory = new JPAQueryFactory(entityManager);
     }
 
     @Override
-    public Page<PostResponseDto> findPublicPosts(Pageable pageable) {
+    public Page<PostDto> findPublicPosts(Pageable pageable) {
         return getPostResponseDtos(pageable, PUBLIC);
     }
 
     @Override
-    public Page<PostResponseDto> findPrivatePosts(Pageable pageable) {
+    public Page<PostDto> findPrivatePosts(Pageable pageable) {
         return getPostResponseDtos(pageable, PRIVATE);
     }
 
-    private Page<PostResponseDto> getPostResponseDtos(Pageable pageable, Visibility visibility) {
-        List<PostResponseDto> content = queryFactory
+    private Page<PostDto> getPostResponseDtos(Pageable pageable, Visibility visibility) {
+        List<PostDto> content = queryFactory
             .select(
                 constructor(
-                    PostResponseDto.class,
+                    PostDto.class,
                     post.id,
                     post.user.nickname,
                     post.content,

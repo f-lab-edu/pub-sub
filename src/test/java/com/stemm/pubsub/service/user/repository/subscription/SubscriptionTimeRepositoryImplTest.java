@@ -13,7 +13,7 @@ import java.util.List;
 import static com.stemm.pubsub.service.user.entity.subscription.SubscriptionStatus.ACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SubscriptionTimeBasedQueryRepositoryImplTest extends RepositoryTestSupport {
+class SubscriptionTimeRepositoryImplTest extends RepositoryTestSupport {
 
     private User user;
     private Membership membership1;

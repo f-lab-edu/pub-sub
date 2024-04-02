@@ -1,7 +1,7 @@
 package com.stemm.pubsub.service.post.repository.post;
 
 import com.stemm.pubsub.common.RepositoryTestSupport;
-import com.stemm.pubsub.service.post.dto.response.PostResponseDto;
+import com.stemm.pubsub.service.post.dto.PostDto;
 import com.stemm.pubsub.service.post.entity.post.Post;
 import com.stemm.pubsub.service.post.entity.post.PostLike;
 import com.stemm.pubsub.service.user.entity.User;
@@ -21,7 +21,7 @@ import static com.stemm.pubsub.service.post.entity.post.Visibility.PUBLIC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 
-class PostVisibilityBasedQueryRepositoryImplTest extends RepositoryTestSupport {
+class PostVisibilityRepositoryImplTest extends RepositoryTestSupport {
 
     @BeforeEach
     void setUp() {
@@ -54,7 +54,7 @@ class PostVisibilityBasedQueryRepositoryImplTest extends RepositoryTestSupport {
         entityManager.clear();
 
         // when
-        Page<PostResponseDto> posts = postRepository.findPublicPosts(pageable);
+        Page<PostDto> posts = postRepository.findPublicPosts(pageable);
 
         // then
         assertThat(posts)
@@ -75,7 +75,7 @@ class PostVisibilityBasedQueryRepositoryImplTest extends RepositoryTestSupport {
         entityManager.clear();
 
         // when
-        Page<PostResponseDto> posts = postRepository.findPrivatePosts(pageable);
+        Page<PostDto> posts = postRepository.findPrivatePosts(pageable);
 
         // then
         assertThat(posts)
