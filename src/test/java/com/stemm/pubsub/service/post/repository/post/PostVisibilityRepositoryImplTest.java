@@ -1,9 +1,9 @@
 package com.stemm.pubsub.service.post.repository.post;
 
 import com.stemm.pubsub.common.RepositoryTestSupport;
-import com.stemm.pubsub.service.post.dto.PostDto;
 import com.stemm.pubsub.service.post.entity.post.Post;
 import com.stemm.pubsub.service.post.entity.post.PostLike;
+import com.stemm.pubsub.service.post.repository.dto.PostRepositoryDto;
 import com.stemm.pubsub.service.user.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -54,7 +54,7 @@ class PostVisibilityRepositoryImplTest extends RepositoryTestSupport {
         entityManager.clear();
 
         // when
-        Page<PostDto> posts = postRepository.findPublicPosts(pageable);
+        Page<PostRepositoryDto> posts = postRepository.findPublicPosts(pageable);
 
         // then
         assertThat(posts)
@@ -64,26 +64,6 @@ class PostVisibilityRepositoryImplTest extends RepositoryTestSupport {
                 tuple("content5", 0, 0),
                 tuple("content3", 1, 0),
                 tuple("content1", 2, 1)
-            );
-    }
-
-    @Test
-    @DisplayName("`PRIVATE` 게시물을 최신 순으로 조회합니다.")
-    void findPrivatePosts() {
-        // given
-        Pageable pageable = PageRequest.of(0, 10);
-        entityManager.clear();
-
-        // when
-        Page<PostDto> posts = postRepository.findPrivatePosts(pageable);
-
-        // then
-        assertThat(posts)
-            .hasSize(2)
-            .extracting("content", "likeCount", "dislikeCount")
-            .containsExactly(
-                tuple("content4", 0, 1),
-                tuple("content2", 1, 1)
             );
     }
 
