@@ -13,7 +13,7 @@ import java.util.List;
 import static com.stemm.pubsub.service.user.entity.subscription.SubscriptionStatus.ACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SubscriptionTimeBasedQueryRepositoryImplTest extends RepositoryTestSupport {
+class SubscriptionTimeRepositoryImplTest extends RepositoryTestSupport {
 
     private User user;
     private Membership membership1;
@@ -40,6 +40,8 @@ class SubscriptionTimeBasedQueryRepositoryImplTest extends RepositoryTestSupport
         Subscription subscription3 = new Subscription(user, membership3, ACTIVE);
         subscriptionRepository.saveAll(List.of(subscription1, subscription2, subscription3));
 
+        entityManager.clear();
+
         // when
         List<Subscription> newestSubscriptions = subscriptionRepository.findNewestSubscriptions(user.getId());
 
@@ -59,6 +61,8 @@ class SubscriptionTimeBasedQueryRepositoryImplTest extends RepositoryTestSupport
         Subscription subscription2 = new Subscription(user, membership2, ACTIVE);
         Subscription subscription3 = new Subscription(user, membership3, ACTIVE);
         subscriptionRepository.saveAll(List.of(subscription1, subscription2, subscription3));
+
+        entityManager.clear();
 
         // when
         List<Subscription> oldestSubscriptions = subscriptionRepository.findOldestSubscriptions(user.getId());

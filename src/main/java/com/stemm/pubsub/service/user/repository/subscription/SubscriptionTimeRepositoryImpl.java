@@ -7,15 +7,14 @@ import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
-import static com.stemm.pubsub.service.user.entity.QMembership.membership;
 import static com.stemm.pubsub.service.user.entity.subscription.QSubscription.subscription;
 import static com.stemm.pubsub.service.user.entity.subscription.SubscriptionStatus.ACTIVE;
 
-public class SubscriptionTimeBasedQueryRepositoryImpl implements SubscriptionTimeBasedQueryRepository {
+public class SubscriptionTimeRepositoryImpl implements SubscriptionTimeRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public SubscriptionTimeBasedQueryRepositoryImpl(EntityManager entityManager) {
+    public SubscriptionTimeRepositoryImpl(EntityManager entityManager) {
         queryFactory = new JPAQueryFactory(entityManager);
     }
 
@@ -23,8 +22,8 @@ public class SubscriptionTimeBasedQueryRepositoryImpl implements SubscriptionTim
     public List<Subscription> findNewestSubscriptions(Long userId) {
         return queryFactory
             .selectFrom(subscription)
-            .join(subscription.membership, membership).fetchJoin()
-            .where(userIdEquals(userId), isActive())
+            .join(subscription.membership).fetchJoin()
+            .where(isMySubscription(userId), isActiveSubscription())
             .orderBy(subscription.createdDate.desc())
             .fetch();
     }
@@ -33,17 +32,17 @@ public class SubscriptionTimeBasedQueryRepositoryImpl implements SubscriptionTim
     public List<Subscription> findOldestSubscriptions(Long userId) {
         return queryFactory
             .selectFrom(subscription)
-            .join(subscription.membership, membership).fetchJoin()
-            .where(userIdEquals(userId), isActive())
+            .join(subscription.membership).fetchJoin()
+            .where(isMySubscription(userId), isActiveSubscription())
             .orderBy(subscription.createdDate.asc())
             .fetch();
     }
 
-    private BooleanExpression userIdEquals(Long userId) {
+    private BooleanExpression isMySubscription(Long userId) {
         return subscription.user.id.eq(userId);
     }
 
-    private BooleanExpression isActive() {
+    private BooleanExpression isActiveSubscription() {
         return subscription.status.eq(ACTIVE);
     }
 }

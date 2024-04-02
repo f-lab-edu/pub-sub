@@ -6,6 +6,7 @@ import com.stemm.pubsub.service.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -21,6 +22,7 @@ public class Comment extends BaseEntity {
     @Column(name = "comment_id")
     private Long id;
 
+    @Setter
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "post_id")
     private Post post;

@@ -5,6 +5,7 @@ import com.stemm.pubsub.service.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
@@ -20,6 +21,7 @@ public class PostLike extends BaseEntity {
     @Column(name = "post_like_id")
     private Long id;
 
+    @Setter
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
