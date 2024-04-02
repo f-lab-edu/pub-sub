@@ -47,14 +47,14 @@ class PostVisibilityBasedQueryRepositoryImplTest extends RepositoryTestSupport {
     }
 
     @Test
-    @DisplayName("모든 `PUBLIC` 게시물을 최신 순으로 조회합니다.")
-    void findAllPublicPosts() {
+    @DisplayName("`PUBLIC` 게시물을 최신 순으로 조회합니다.")
+    void findPublicPosts() {
         // given
         Pageable pageable = PageRequest.of(0, 10);
         entityManager.clear();
 
         // when
-        Page<PostResponseDto> posts = postRepository.findAllPublicPosts(pageable);
+        Page<PostResponseDto> posts = postRepository.findPublicPosts(pageable);
 
         // then
         assertThat(posts)
@@ -68,14 +68,14 @@ class PostVisibilityBasedQueryRepositoryImplTest extends RepositoryTestSupport {
     }
 
     @Test
-    @DisplayName("모든 `PRIVATE` 게시물을 최신 순으로 조회합니다.")
-    void findAllPrivatePosts() {
+    @DisplayName("`PRIVATE` 게시물을 최신 순으로 조회합니다.")
+    void findPrivatePosts() {
         // given
         Pageable pageable = PageRequest.of(0, 10);
         entityManager.clear();
 
         // when
-        Page<PostResponseDto> posts = postRepository.findAllPrivatePosts(pageable);
+        Page<PostResponseDto> posts = postRepository.findPrivatePosts(pageable);
 
         // then
         assertThat(posts)

@@ -6,12 +6,12 @@ import org.springframework.data.domain.Pageable;
 
 public interface PostVisibilityBasedQueryRepository {
     /**
-     * 모든 `PUBLIC` 게시물을 최신 순으로 조회합니다.
+     * `PUBLIC` 게시물을 최신 순으로 조회합니다.
      */
-    Page<PostResponseDto> findAllPublicPosts(Pageable pageable);
+    Page<PostResponseDto> findPublicPosts(Pageable pageable);
 
     /**
-     * 모든 `PRIVATE` 게시물을 최신 순으로 조회합니다.
+     * `PRIVATE` 게시물을 최신 순으로 조회합니다.
      */
-    Page<PostResponseDto> findAllPrivatePosts(Pageable pageable);
+    Page<PostResponseDto> findPrivatePosts(Pageable pageable);
 }

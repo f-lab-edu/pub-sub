@@ -29,12 +29,12 @@ public class PostVisibilityBasedQueryRepositoryImpl implements PostVisibilityBas
     }
 
     @Override
-    public Page<PostResponseDto> findAllPublicPosts(Pageable pageable) {
+    public Page<PostResponseDto> findPublicPosts(Pageable pageable) {
         return getPostResponseDtos(pageable, PUBLIC);
     }
 
     @Override
-    public Page<PostResponseDto> findAllPrivatePosts(Pageable pageable) {
+    public Page<PostResponseDto> findPrivatePosts(Pageable pageable) {
         return getPostResponseDtos(pageable, PRIVATE);
     }
 
