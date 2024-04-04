@@ -6,11 +6,11 @@ import jakarta.persistence.EntityManager;
 import static com.querydsl.core.types.Projections.constructor;
 import static com.stemm.pubsub.service.user.entity.QUser.user;
 
-public class UserQueryRepositoryImpl implements UserQueryRepository {
+public class UserInfoRepositoryImpl implements UserInfoRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public UserQueryRepositoryImpl(EntityManager entityManager) {
+    public UserInfoRepositoryImpl(EntityManager entityManager) {
         queryFactory = new JPAQueryFactory(entityManager);
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class UserQueryRepositoryImplTest extends RepositoryTestSupport {
+class UserInfoRepositoryImplTest extends RepositoryTestSupport {
 
     @Test
     @DisplayName("Id로 유저를 조회합니다.")
