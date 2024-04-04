@@ -3,7 +3,6 @@ package com.stemm.pubsub.service.post.repository.post;
 import com.stemm.pubsub.common.RepositoryTestSupport;
 import com.stemm.pubsub.service.post.entity.post.Post;
 import com.stemm.pubsub.service.post.entity.post.PostLike;
-import com.stemm.pubsub.service.post.repository.dto.PostRepositoryDto;
 import com.stemm.pubsub.service.user.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

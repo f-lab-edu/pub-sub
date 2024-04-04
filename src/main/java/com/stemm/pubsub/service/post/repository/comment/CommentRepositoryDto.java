@@ -1,4 +1,4 @@
-package com.stemm.pubsub.service.post.repository.dto;
+package com.stemm.pubsub.service.post.repository.comment;
 
 import java.time.LocalDateTime;
 

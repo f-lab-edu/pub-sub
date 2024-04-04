@@ -2,7 +2,6 @@ package com.stemm.pubsub.service.user.repository.user;
 
 import com.stemm.pubsub.common.RepositoryTestSupport;
 import com.stemm.pubsub.service.user.entity.User;
-import com.stemm.pubsub.service.user.repository.dto.UserRepositoryDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package com.stemm.pubsub.service.post.repository;
+package com.stemm.pubsub.service.post.repository.comment;
 
 import com.stemm.pubsub.service.post.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;

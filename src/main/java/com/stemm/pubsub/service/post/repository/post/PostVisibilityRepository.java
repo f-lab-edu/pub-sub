@@ -1,6 +1,5 @@
 package com.stemm.pubsub.service.post.repository.post;
 
-import com.stemm.pubsub.service.post.repository.dto.PostRepositoryDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

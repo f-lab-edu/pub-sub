@@ -1,4 +1,4 @@
-package com.stemm.pubsub.service.user.repository.dto;
+package com.stemm.pubsub.service.user.repository.membership;
 
 import java.time.LocalDateTime;
 

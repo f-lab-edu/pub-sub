@@ -1,7 +1,6 @@
 package com.stemm.pubsub.service.user.repository.user;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.stemm.pubsub.service.user.repository.dto.UserRepositoryDto;
 import jakarta.persistence.EntityManager;
 
 import static com.querydsl.core.types.Projections.constructor;
