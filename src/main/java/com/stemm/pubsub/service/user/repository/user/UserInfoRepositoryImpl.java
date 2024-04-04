@@ -15,7 +15,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
     }
 
     @Override
-    public UserDto findByUserId(Long userId) {
+    public UserDto findUserById(Long userId) {
         return queryFactory
             .select(
                 constructor(
@@ -34,7 +34,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
     }
 
     @Override
-    public UserDto findByNickname(String nickname) {
+    public UserDto findUserByNickname(String nickname) {
         return queryFactory
             .select(
                 constructor(
