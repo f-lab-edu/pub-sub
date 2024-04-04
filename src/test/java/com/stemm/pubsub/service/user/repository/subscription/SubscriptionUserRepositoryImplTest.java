@@ -6,7 +6,6 @@ import com.stemm.pubsub.service.user.entity.User;
 import com.stemm.pubsub.service.user.entity.subscription.Subscription;
 import com.stemm.pubsub.service.user.repository.subscription.dto.SubscriptionUserDto;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,11 +14,6 @@ import java.util.List;
 import static com.stemm.pubsub.service.user.entity.subscription.SubscriptionStatus.ACTIVE;
 
 class SubscriptionUserRepositoryImplTest extends RepositoryTestSupport {
-
-    @BeforeEach
-    void setUp() {
-
-    }
 
     @Test
     @DisplayName("구독 중인 멤버십을 생성한 유저의 Id를 조회합니다.")
