@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public record CommentDto(
     Long id,
-    Long postId,
     String nickname,
     String profileImageUrl,
     String content,
