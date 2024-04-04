@@ -1,10 +1,11 @@
 package com.stemm.pubsub.service.post.repository.post;
 
+import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.stemm.pubsub.service.post.entity.post.Visibility;
-import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,36 +16,34 @@ import static com.stemm.pubsub.service.post.entity.post.LikeStatus.DISLIKE;
 import static com.stemm.pubsub.service.post.entity.post.LikeStatus.LIKE;
 import static com.stemm.pubsub.service.post.entity.post.QPost.post;
 import static com.stemm.pubsub.service.post.entity.post.QPostLike.postLike;
+import static com.stemm.pubsub.service.post.entity.post.Visibility.PRIVATE;
 import static com.stemm.pubsub.service.post.entity.post.Visibility.PUBLIC;
 import static org.springframework.data.support.PageableExecutionUtils.getPage;
 
+@RequiredArgsConstructor
 public class PostVisibilityRepositoryImpl implements PostVisibilityRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public PostVisibilityRepositoryImpl(EntityManager entityManager) {
-        queryFactory = new JPAQueryFactory(entityManager);
-    }
+    ConstructorExpression<PostDto> postDto = constructor(
+        PostDto.class,
+        post.id,
+        post.user.nickname,
+        post.user.profileImageUrl,
+        post.content,
+        post.imageUrl,
+        postLike.status.when(LIKE).then(1).otherwise(0).sum().intValue().as("likeCount"),
+        postLike.status.when(DISLIKE).then(1).otherwise(0).sum().intValue().as("dislikeCount"),
+        post.createdDate,
+        post.lastModifiedDate
+    );
 
     @Override
     public Page<PostDto> findPublicPosts(Pageable pageable) {
         List<PostDto> content = queryFactory
-            .select(
-                constructor(
-                    PostDto.class,
-                    post.id,
-                    post.user.nickname,
-                    post.user.profileImageUrl,
-                    post.content,
-                    post.imageUrl,
-                    postLike.status.when(LIKE).then(1).otherwise(0).sum().intValue().as("likeCount"),
-                    postLike.status.when(DISLIKE).then(1).otherwise(0).sum().intValue().as("dislikeCount"),
-                    post.createdDate,
-                    post.lastModifiedDate
-                )
-            )
+            .select(postDto)
             .from(post)
-            .leftJoin(post.likes, postLike)
+            .leftJoin(postLike).on(post.id.eq(postLike.post.id))
             .where(isVisibilityEquals(PUBLIC))
             .groupBy(post.id)
             .orderBy(post.createdDate.desc())
@@ -58,6 +57,31 @@ public class PostVisibilityRepositoryImpl implements PostVisibilityRepository {
             .where(isVisibilityEquals(PUBLIC));
 
         return getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    @Override
+    public Page<PostDto> findUsersPrivatePosts(List<Long> userIds, Pageable pageable) {
+        List<PostDto> content = queryFactory
+            .select(postDto)
+            .from(post)
+            .leftJoin(postLike).on(post.id.eq(postLike.post.id))
+            .where(isUserIdIn(userIds), isVisibilityEquals(PRIVATE))
+            .groupBy(post.id)
+            .orderBy(post.createdDate.desc())
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+            .select(post.count())
+            .from(post)
+            .where(isUserIdIn(userIds), isVisibilityEquals(PRIVATE));
+
+        return getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    private BooleanExpression isUserIdIn(List<Long> userIds) {
+        return post.user.id.in(userIds);
     }
 
     private BooleanExpression isVisibilityEquals(Visibility visibility) {
