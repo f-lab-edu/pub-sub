@@ -1,5 +1,6 @@
 package com.stemm.pubsub.common;
 
+import com.stemm.pubsub.common.config.QuerydslConfig;
 import com.stemm.pubsub.service.post.repository.PostLikeRepository;
 import com.stemm.pubsub.service.post.repository.post.PostRepository;
 import com.stemm.pubsub.service.user.repository.membership.MembershipRepository;
@@ -7,8 +8,10 @@ import com.stemm.pubsub.service.user.repository.subscription.SubscriptionReposit
 import com.stemm.pubsub.service.user.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
 
 @DataJpaTestWithAuditing
+@Import(QuerydslConfig.class)
 public abstract class RepositoryTestSupport {
     @Autowired
     protected TestEntityManager entityManager;

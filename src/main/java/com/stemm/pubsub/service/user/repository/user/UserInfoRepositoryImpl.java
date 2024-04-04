@@ -1,18 +1,15 @@
 package com.stemm.pubsub.service.user.repository.user;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 
 import static com.querydsl.core.types.Projections.constructor;
 import static com.stemm.pubsub.service.user.entity.QUser.user;
 
+@RequiredArgsConstructor
 public class UserInfoRepositoryImpl implements UserInfoRepository {
 
     private final JPAQueryFactory queryFactory;
-
-    public UserInfoRepositoryImpl(EntityManager entityManager) {
-        queryFactory = new JPAQueryFactory(entityManager);
-    }
 
     @Override
     public UserDto findByUserId(Long userId) {

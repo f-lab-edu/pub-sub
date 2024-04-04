@@ -21,29 +21,28 @@ class UserInfoRepositoryImplTest extends RepositoryTestSupport {
         userRepository.saveAll(List.of(user1, user2, user3));
 
         // when
-        UserDto user = userRepository.findByUserId(1L);
+        UserDto user = userRepository.findByUserId(user1.getId());
 
         // then
         assertThat(user)
-            .hasFieldOrPropertyWithValue("id", 1L);
+            .hasFieldOrPropertyWithValue("id", user1.getId());
     }
 
     @Test
     @DisplayName("닉네임으로 유저를 조회합니다.")
     void findUserByNickname() {
         // given
-        String nickname = "user1";
-        User user1 = createUser(nickname, "name1", "user1@email.com");
+        User user1 = createUser("user1", "name1", "user1@email.com");
         User user2 = createUser("user2", "name2", "user2@email.com");
         User user3 = createUser("user3", "name3", "user3@email.com");
         userRepository.saveAll(List.of(user1, user2, user3));
 
         // when
-        UserDto user = userRepository.findByNickname(nickname);
+        UserDto user = userRepository.findByNickname(user1.getNickname());
 
         // then
         assertThat(user)
-            .hasFieldOrPropertyWithValue("nickname", nickname);
+            .hasFieldOrPropertyWithValue("nickname", user1.getNickname());
     }
 
     private User createUser(String nickname, String name, String email) {
