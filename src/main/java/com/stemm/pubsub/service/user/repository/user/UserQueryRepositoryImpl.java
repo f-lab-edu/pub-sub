@@ -15,11 +15,11 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
     }
 
     @Override
-    public UserRepositoryDto findByUserId(Long userId) {
+    public UserDto findByUserId(Long userId) {
         return queryFactory
             .select(
                 constructor(
-                    UserRepositoryDto.class,
+                    UserDto.class,
                     user.id,
                     user.membership.id,
                     user.nickname,
@@ -34,11 +34,11 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
     }
 
     @Override
-    public UserRepositoryDto findByNickname(String nickname) {
+    public UserDto findByNickname(String nickname) {
         return queryFactory
             .select(
                 constructor(
-                    UserRepositoryDto.class,
+                    UserDto.class,
                     user.id,
                     user.membership.id,
                     user.nickname,

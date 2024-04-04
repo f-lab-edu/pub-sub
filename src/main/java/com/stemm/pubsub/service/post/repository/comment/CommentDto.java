@@ -1,16 +1,17 @@
-package com.stemm.pubsub.service.post.repository.post;
+package com.stemm.pubsub.service.post.repository.comment;
 
 import java.time.LocalDateTime;
 
-public record PostRepositoryDto(
+public record CommentDto(
     Long id,
+    Long postId,
     String nickname,
     String profileImageUrl,
     String content,
-    String imageUrl,
     int likeCount,
     int dislikeCount,
     LocalDateTime createdDate,
     LocalDateTime lastModifiedDate
 ) {
 }
+

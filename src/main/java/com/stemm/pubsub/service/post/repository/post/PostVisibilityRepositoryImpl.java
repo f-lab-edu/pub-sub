@@ -27,11 +27,11 @@ public class PostVisibilityRepositoryImpl implements PostVisibilityRepository {
     }
 
     @Override
-    public Page<PostRepositoryDto> findPublicPosts(Pageable pageable) {
-        List<PostRepositoryDto> content = queryFactory
+    public Page<PostDto> findPublicPosts(Pageable pageable) {
+        List<PostDto> content = queryFactory
             .select(
                 constructor(
-                    PostRepositoryDto.class,
+                    PostDto.class,
                     post.id,
                     post.user.nickname,
                     post.user.profileImageUrl,

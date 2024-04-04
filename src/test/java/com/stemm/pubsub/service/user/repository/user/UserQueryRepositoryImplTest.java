@@ -21,7 +21,7 @@ class UserQueryRepositoryImplTest extends RepositoryTestSupport {
         userRepository.saveAll(List.of(user1, user2, user3));
 
         // when
-        UserRepositoryDto user = userRepository.findByUserId(1L);
+        UserDto user = userRepository.findByUserId(1L);
 
         // then
         assertThat(user)
@@ -39,7 +39,7 @@ class UserQueryRepositoryImplTest extends RepositoryTestSupport {
         userRepository.saveAll(List.of(user1, user2, user3));
 
         // when
-        UserRepositoryDto user = userRepository.findByNickname(nickname);
+        UserDto user = userRepository.findByNickname(nickname);
 
         // then
         assertThat(user)

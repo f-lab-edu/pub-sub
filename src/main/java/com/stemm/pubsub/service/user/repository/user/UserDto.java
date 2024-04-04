@@ -1,6 +1,6 @@
 package com.stemm.pubsub.service.user.repository.user;
 
-public record UserRepositoryDto(
+public record UserDto(
     Long id,
     Long membershipId,
     String nickname,

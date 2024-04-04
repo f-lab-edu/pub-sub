@@ -53,7 +53,7 @@ class PostVisibilityRepositoryImplTest extends RepositoryTestSupport {
         entityManager.clear();
 
         // when
-        Page<PostRepositoryDto> posts = postRepository.findPublicPosts(pageable);
+        Page<PostDto> posts = postRepository.findPublicPosts(pageable);
 
         // then
         assertThat(posts)
