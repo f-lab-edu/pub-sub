@@ -1,5 +1,6 @@
 package com.stemm.pubsub.service.user.repository.user;
 
+import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -11,20 +12,20 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
 
     private final JPAQueryFactory queryFactory;
 
+    private final ConstructorExpression<UserDto> userDto = constructor(
+        UserDto.class,
+        user.id,
+        user.membership.id,
+        user.nickname,
+        user.email,
+        user.profileImageUrl,
+        user.bio
+    );
+
     @Override
     public UserDto findByUserId(Long userId) {
         return queryFactory
-            .select(
-                constructor(
-                    UserDto.class,
-                    user.id,
-                    user.membership.id,
-                    user.nickname,
-                    user.email,
-                    user.profileImageUrl,
-                    user.bio
-                )
-            )
+            .select(userDto)
             .from(user)
             .where(user.id.eq(userId))
             .fetchOne();
@@ -33,17 +34,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
     @Override
     public UserDto findByNickname(String nickname) {
         return queryFactory
-            .select(
-                constructor(
-                    UserDto.class,
-                    user.id,
-                    user.membership.id,
-                    user.nickname,
-                    user.email,
-                    user.profileImageUrl,
-                    user.bio
-                )
-            )
+            .select(userDto)
             .from(user)
             .where(user.nickname.eq(nickname))
             .fetchOne();

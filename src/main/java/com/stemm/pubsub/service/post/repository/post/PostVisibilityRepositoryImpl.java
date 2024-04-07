@@ -25,7 +25,7 @@ public class PostVisibilityRepositoryImpl implements PostVisibilityRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    ConstructorExpression<PostDto> postDto = constructor(
+    private final ConstructorExpression<PostDto> postDto = constructor(
         PostDto.class,
         post.id,
         post.user.nickname,
@@ -44,7 +44,7 @@ public class PostVisibilityRepositoryImpl implements PostVisibilityRepository {
             .select(postDto)
             .from(post)
             .leftJoin(postLike).on(post.id.eq(postLike.post.id))
-            .where(isVisibilityEquals(PUBLIC))
+            .where(visibilityEquals(PUBLIC))
             .groupBy(post.id)
             .orderBy(post.createdDate.desc())
             .offset(pageable.getOffset())
@@ -54,7 +54,7 @@ public class PostVisibilityRepositoryImpl implements PostVisibilityRepository {
         JPAQuery<Long> countQuery = queryFactory
             .select(post.count())
             .from(post)
-            .where(isVisibilityEquals(PUBLIC));
+            .where(visibilityEquals(PUBLIC));
 
         return getPage(content, pageable, countQuery::fetchOne);
     }
@@ -65,7 +65,7 @@ public class PostVisibilityRepositoryImpl implements PostVisibilityRepository {
             .select(postDto)
             .from(post)
             .leftJoin(postLike).on(post.id.eq(postLike.post.id))
-            .where(isUserIdIn(userIds), isVisibilityEquals(PRIVATE))
+            .where(userIdIn(userIds), visibilityEquals(PRIVATE))
             .groupBy(post.id)
             .orderBy(post.createdDate.desc())
             .offset(pageable.getOffset())
@@ -75,16 +75,16 @@ public class PostVisibilityRepositoryImpl implements PostVisibilityRepository {
         JPAQuery<Long> countQuery = queryFactory
             .select(post.count())
             .from(post)
-            .where(isUserIdIn(userIds), isVisibilityEquals(PRIVATE));
+            .where(userIdIn(userIds), visibilityEquals(PRIVATE));
 
         return getPage(content, pageable, countQuery::fetchOne);
     }
 
-    private BooleanExpression isUserIdIn(List<Long> userIds) {
+    private BooleanExpression userIdIn(List<Long> userIds) {
         return post.user.id.in(userIds);
     }
 
-    private BooleanExpression isVisibilityEquals(Visibility visibility) {
+    private BooleanExpression visibilityEquals(Visibility visibility) {
         return post.visibility.eq(visibility);
     }
 }
