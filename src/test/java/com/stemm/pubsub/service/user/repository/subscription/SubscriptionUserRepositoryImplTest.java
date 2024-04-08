@@ -17,7 +17,7 @@ class SubscriptionUserRepositoryImplTest extends RepositoryTestSupport {
 
     @Test
     @DisplayName("구독 중인 멤버십을 생성한 유저의 Id를 조회합니다.")
-    void findSubscribingUsersId() {
+    void findSubscribingUserIds() {
         // given
         Membership membership1 = new Membership("mem1", 10_000);
         Membership membership2 = new Membership("mem2", 20_000);
@@ -35,7 +35,7 @@ class SubscriptionUserRepositoryImplTest extends RepositoryTestSupport {
         entityManager.clear();
 
         // when
-        SubscriptionUserDto subscribingUsersId = subscriptionRepository.findSubscribingUsersId(user.getId());
+        SubscriptionUserDto subscribingUsersId = subscriptionRepository.findSubscribingUserIds(user.getId());
 
         // then
         Assertions.assertThat(subscribingUsersId.userIds())

@@ -16,7 +16,7 @@ public class SubscriptionUserRepositoryImpl implements SubscriptionUserRepositor
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public SubscriptionUserDto findSubscribingUsersId(Long subscriberId) {
+    public SubscriptionUserDto findSubscribingUserIds(Long subscriberId) {
         List<Long> userIds = queryFactory
             .select(user.id)
             .from(subscription)
