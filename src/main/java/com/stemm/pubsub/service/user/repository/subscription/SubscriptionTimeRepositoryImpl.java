@@ -3,20 +3,17 @@ package com.stemm.pubsub.service.user.repository.subscription;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.stemm.pubsub.service.user.entity.subscription.Subscription;
-import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 import static com.stemm.pubsub.service.user.entity.subscription.QSubscription.subscription;
 import static com.stemm.pubsub.service.user.entity.subscription.SubscriptionStatus.ACTIVE;
 
+@RequiredArgsConstructor
 public class SubscriptionTimeRepositoryImpl implements SubscriptionTimeRepository {
 
     private final JPAQueryFactory queryFactory;
-
-    public SubscriptionTimeRepositoryImpl(EntityManager entityManager) {
-        queryFactory = new JPAQueryFactory(entityManager);
-    }
 
     @Override
     public List<Subscription> findNewestSubscriptions(Long userId) {
