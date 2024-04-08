@@ -48,4 +48,24 @@ public class Comment extends BaseEntity {
         this.likeCount = 0;
         this.dislikeCount = 0;
     }
+
+    public void incrementLikeCount() {
+        likeCount++;
+    }
+
+    public void decrementLikeCount() {
+        if (likeCount > 0) {
+            likeCount--;
+        }
+    }
+
+    public void incrementDislikeCount() {
+        dislikeCount++;
+    }
+
+    public void decrementDislikeCount() {
+        if (dislikeCount > 0) {
+            dislikeCount--;
+        }
+    }
 }
