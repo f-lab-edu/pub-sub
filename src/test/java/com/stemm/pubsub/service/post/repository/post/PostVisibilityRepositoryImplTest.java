@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.stemm.pubsub.service.post.entity.post.Visibility.PRIVATE;
@@ -75,6 +76,26 @@ class PostVisibilityRepositoryImplTest extends RepositoryTestSupport {
             .hasSize(3)
             .extracting("id")
             .containsExactly(post4.getId(), post3.getId(), post2.getId());
+    }
+
+    @Test
+    @DisplayName("유저 id가 없는 경우 아무런 게시물도 조회되지 않습니다.")
+    void findNoUsersPrivatePosts() {
+        // given
+        Post post1 = new Post(user1, "content1", null, PUBLIC);
+        Post post2 = new Post(user1, "content2", null, PRIVATE);
+        Post post3 = new Post(user2, "content3", null, PRIVATE);
+        Post post4 = new Post(user3, "content4", null, PRIVATE);
+        Post post5 = new Post(user3, "content5", null, PUBLIC);
+        postRepository.saveAll(List.of(post1, post2, post3, post4, post5));
+
+        entityManager.clear();
+
+        // when
+        Page<PostDto> posts = postRepository.findUsersPrivatePosts(new ArrayList<>(), PageRequest.of(0, 10));
+
+        // then
+        assertThat(posts).isEmpty();
     }
 
     private User createUser(String nickname, String name, String email) {
