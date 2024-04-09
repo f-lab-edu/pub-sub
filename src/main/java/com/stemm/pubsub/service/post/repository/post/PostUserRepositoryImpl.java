@@ -21,7 +21,7 @@ import static com.stemm.pubsub.service.post.entity.post.Visibility.PUBLIC;
 import static org.springframework.data.support.PageableExecutionUtils.getPage;
 
 @RequiredArgsConstructor
-public class PostVisibilityRepositoryImpl implements PostVisibilityRepository {
+public class PostUserRepositoryImpl implements PostUserRepository {
 
     private final JPAQueryFactory queryFactory;
 
@@ -39,33 +39,21 @@ public class PostVisibilityRepositoryImpl implements PostVisibilityRepository {
     );
 
     @Override
-    public Page<PostDto> findPublicPosts(Pageable pageable) {
-        List<PostDto> content = queryFactory
-            .select(postDto)
-            .from(post)
-            .leftJoin(postLike).on(post.id.eq(postLike.post.id))
-            .where(visibilityEquals(PUBLIC))
-            .groupBy(post.id)
-            .orderBy(post.createdDate.desc())
-            .offset(pageable.getOffset())
-            .limit(pageable.getPageSize())
-            .fetch();
-
-        JPAQuery<Long> countQuery = queryFactory
-            .select(post.count())
-            .from(post)
-            .where(visibilityEquals(PUBLIC));
-
-        return getPage(content, pageable, countQuery::fetchOne);
+    public Page<PostDto> findPublicPostsByUserId(Long userId, Pageable pageable) {
+        return getPostDtos(userId, pageable, PUBLIC);
     }
 
     @Override
-    public Page<PostDto> findUsersPrivatePosts(List<Long> userIds, Pageable pageable) {
+    public Page<PostDto> findPrivatePostsByUserId(Long userId, Pageable pageable) {
+        return getPostDtos(userId, pageable, PRIVATE);
+    }
+
+    private Page<PostDto> getPostDtos(Long userId, Pageable pageable, Visibility visibility) {
         List<PostDto> content = queryFactory
             .select(postDto)
             .from(post)
             .leftJoin(postLike).on(post.id.eq(postLike.post.id))
-            .where(userIdIn(userIds), visibilityEquals(PRIVATE))
+            .where(userIdEquals(userId), visibilityEquals(visibility))
             .groupBy(post.id)
             .orderBy(post.createdDate.desc())
             .offset(pageable.getOffset())
@@ -75,13 +63,13 @@ public class PostVisibilityRepositoryImpl implements PostVisibilityRepository {
         JPAQuery<Long> countQuery = queryFactory
             .select(post.count())
             .from(post)
-            .where(userIdIn(userIds), visibilityEquals(PRIVATE));
+            .where(userIdEquals(userId), visibilityEquals(visibility));
 
         return getPage(content, pageable, countQuery::fetchOne);
     }
 
-    private BooleanExpression userIdIn(List<Long> userIds) {
-        return post.user.id.in(userIds);
+    private BooleanExpression userIdEquals(Long userId) {
+        return post.user.id.eq(userId);
     }
 
     private BooleanExpression visibilityEquals(Visibility visibility) {
