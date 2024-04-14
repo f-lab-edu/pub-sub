@@ -42,13 +42,16 @@ public class TokenProcessingFilter extends OncePerRequestFilter {
         Optional<String> accessToken = tokenService.extractAccessToken(request);
         Optional<String> refreshToken = tokenService.extractRefreshToken(request);
 
+        // access token 유효한 경우
         if (accessToken.isPresent() && isValidToken(accessToken.get())) {
             Optional<Long> userId = extractUserId(accessToken.get());
             userId.ifPresent(id -> authenticateUser(id));
             filterChain.doFilter(request, response);
         }
 
-        if (refreshToken.isPresent() && isValidToken(refreshToken.get())) {
+        // refresh token 있는 경우
+        // refresh token은 있지만 유효하지 않은 경우(e.g. 만료, 위변조)도 포함하기 때문에 위변조된 경우 보안에 취약할 수 있습니다.
+        if (refreshToken.isPresent()) {
             Optional<Long> userId = extractUserId(refreshToken.get());
             userId.ifPresent(id -> reissueTokens(response, id));
             return;
