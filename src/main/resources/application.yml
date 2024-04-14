@@ -4,6 +4,7 @@ spring:
     group:
       local: local, common
       prod: prod, common
+    include: oauth, token
 
   jpa:
     hibernate:
