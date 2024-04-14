@@ -39,10 +39,22 @@ public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
+    private String password;
+
     private String profileImageUrl;
 
     @Lob
     private String bio;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private ProviderType providerType;
+
+    private String providerId;
+
+    private String refreshToken;
 
     @Builder
     private User(
@@ -50,14 +62,28 @@ public class User extends BaseEntity {
         String nickname,
         String name,
         String email,
+        String password,
         String profileImageUrl,
-        String bio
+        String bio,
+        Role role,
+        ProviderType providerType,
+        String providerId,
+        String refreshToken
     ) {
         this.membership = membership;
         this.nickname = nickname;
         this.name = name;
         this.email = email;
+        this.password = password;
         this.profileImageUrl = profileImageUrl;
         this.bio = bio;
+        this.role = role;
+        this.providerType = providerType;
+        this.providerId = providerId;
+        this.refreshToken = refreshToken;
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }
