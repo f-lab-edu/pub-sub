@@ -51,7 +51,7 @@ public class TokenProcessingFilter extends OncePerRequestFilter {
         }
 
         // refresh token 있는 경우
-        // refresh token은 있지만 유효하지 않은 경우(e.g. 만료, 위변조)도 포함하기 때문에 위변조된 경우 보안에 취약할 수 있습니다.
+        // FIXME: refresh token은 있지만 유효하지 않은 경우(e.g. 만료, 위변조)도 포함하기 때문에 위변조된 경우 보안에 취약할 수 있습니다.
         if (refreshToken.isPresent()) {
             Optional<Long> userId = extractUserId(refreshToken.get());
             userId.ifPresent(id -> reissueTokens(response, id));
