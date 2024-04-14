@@ -47,6 +47,7 @@ public class TokenProcessingFilter extends OncePerRequestFilter {
             Optional<Long> userId = extractUserId(accessToken.get());
             userId.ifPresent(id -> authenticateUser(id));
             filterChain.doFilter(request, response);
+            return;
         }
 
         // refresh token 있는 경우
