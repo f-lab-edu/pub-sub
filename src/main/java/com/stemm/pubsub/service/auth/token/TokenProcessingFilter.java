@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.PatternMatchUtils;
@@ -78,13 +77,14 @@ public class TokenProcessingFilter extends OncePerRequestFilter {
      * 인증된 유저를 security context에 저장합니다.
      */
     private void authenticateUser(Long userId) {
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-            userId,
-            null,
-            Collections.singletonList(new SimpleGrantedAuthority(USER.getKey()))
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        SecurityContextHolder.getContext()
+            .setAuthentication(
+                UsernamePasswordAuthenticationToken.authenticated(
+                    userId,
+                    null,
+                    Collections.singletonList(new SimpleGrantedAuthority(USER.getKey()))
+                )
+            );
     }
 
     private String reissueAccessToken(Long userId) {
