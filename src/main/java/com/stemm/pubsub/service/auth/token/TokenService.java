@@ -61,13 +61,11 @@ public class TokenService {
         return new Date(System.currentTimeMillis() + tokenExpirationPeriod);
     }
 
-    // TODO: 다른 헤더들도 설정? (캐싱 방지??)
     public void sendAccessToken(HttpServletResponse response, String accessToken) {
         response.setStatus(SC_OK);
         response.setHeader(AUTHORIZATION_HEADER, BEARER_PREFIX + accessToken);
     }
 
-    // TODO: 다른 헤더들도 설정?
     public void sendAccessTokenAndRefreshToken(
         HttpServletResponse response,
         String accessToken,
@@ -77,7 +75,6 @@ public class TokenService {
         response.addCookie(makeRefreshTokenCookie(response, refreshToken));
     }
 
-    // TODO: samesite 옵션?
     private Cookie makeRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
         Cookie cookie = new Cookie(REFRESH_TOKEN_COOKIE, refreshToken);
         cookie.setHttpOnly(true);
@@ -87,7 +84,6 @@ public class TokenService {
         return cookie;
     }
 
-    // TODO: 예외처리
     /**
      * 토큰 만료, 변조 등을 검사합니다.
      */
@@ -116,7 +112,6 @@ public class TokenService {
             .map(Cookie::getValue);
     }
 
-    // TODO: 예외처리
     public Optional<Long> extractUserId(String token) {
         try {
             String subject = JWT.require(HMAC512(secretKey)).build().verify(token).getSubject();
@@ -130,8 +125,6 @@ public class TokenService {
         }
     }
 
-    // TODO: custom exception? transactional?
-    // TODO: updateRefreshToken 로직의 책임을 엔티티, 서비스, 필터 중 어디서?
     @Transactional
     public void updateRefreshToken(Long userId, String refreshToken) {
         userRepository.findById(userId)
