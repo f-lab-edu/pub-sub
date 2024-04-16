@@ -17,9 +17,10 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // TODO: sign up response 리턴, custom exception 정의 및 메서드 분리
+    // TODO: 리턴값?? custom exception 정의 및 메서드 분리
+    // TODO: 중복 체크 매번 db 접근??
     @Transactional
-    public void signUp(SignUpRequest signUpRequest) throws Exception {
+    public User signUp(SignUpRequest signUpRequest) throws Exception {
         if (userRepository.findByNickname(signUpRequest.nickname()).isPresent()) {
             throw new Exception("이미 존재하는 닉네임입니다.");
         }
@@ -36,6 +37,6 @@ public class AuthService {
             .role(USER)
             .build();
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 }

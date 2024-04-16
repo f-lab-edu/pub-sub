@@ -2,10 +2,14 @@ package com.stemm.pubsub.service.auth;
 
 import com.stemm.pubsub.service.auth.dto.SignUpRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequiredArgsConstructor
@@ -13,11 +17,10 @@ public class AuthController {
 
     private final AuthService authService;
 
-    // TODO: string 리턴 x
     @PostMapping("/signup")
-    public String signUp(@RequestBody SignUpRequest signUpRequest) throws Exception {
+    public ResponseEntity<Object> signUp(@Validated @RequestBody SignUpRequest signUpRequest) throws Exception {
         authService.signUp(signUpRequest);
-        return "회원가입 성공";
+        return ResponseEntity.status(CREATED).build();
     }
 
     @GetMapping("/jwt-test")

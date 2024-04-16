@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+// TODO: SimpleUrlAuthenticationFailureHandler 굳이 상속해야하나? (success handler도 마찬가지)
 @Slf4j
 public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     @Override
