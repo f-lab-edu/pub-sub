@@ -58,7 +58,8 @@ public class TokenProcessingFilter extends OncePerRequestFilter {
         }
 
         // TODO: 어느 필터에서 request reject 해야하나? (일단 여기서 함)
-        rejectRequest(response);
+//        rejectRequest(response);
+        filterChain.doFilter(request, response);
     }
 
     private boolean isWhitelist(String requestUri) {
@@ -106,7 +107,7 @@ public class TokenProcessingFilter extends OncePerRequestFilter {
     }
 
     private void rejectRequest(HttpServletResponse response) throws IOException {
-        log.info("token checking failed");
+        log.info("토큰을 확인해주세요.");
         response.sendError(SC_UNAUTHORIZED, "토큰을 확인해주세요.");
     }
 }

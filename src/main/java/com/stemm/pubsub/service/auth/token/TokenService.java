@@ -26,11 +26,11 @@ import static jakarta.servlet.http.HttpServletResponse.SC_OK;
 @Getter
 public class TokenService {
 
-    private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final String BEARER_PREFIX = "Bearer ";
-    private static final String REFRESH_TOKEN_COOKIE = "refreshToken";
-    private static final String URI_ALL = "/";
-    private static final int COOKIE_EXPIRY = 7 * 24 * 60 * 60;  // 7일
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String BEARER_PREFIX = "Bearer ";
+    public static final String REFRESH_TOKEN_COOKIE = "refreshToken";
+    public static final String URI_ALL = "/";
+    public static final int COOKIE_EXPIRY = 7 * 24 * 60 * 60;  // 7일
 
     @Value("${jwt.secretKey}")
     private String secretKey;
@@ -61,7 +61,7 @@ public class TokenService {
         return new Date(System.currentTimeMillis() + tokenExpirationPeriod);
     }
 
-    // TODO: 다른 헤더들도 설정?
+    // TODO: 다른 헤더들도 설정? (캐싱 방지??)
     public void sendAccessToken(HttpServletResponse response, String accessToken) {
         response.setStatus(SC_OK);
         response.setHeader(AUTHORIZATION_HEADER, BEARER_PREFIX + accessToken);
@@ -77,6 +77,7 @@ public class TokenService {
         response.addCookie(makeRefreshTokenCookie(response, refreshToken));
     }
 
+    // TODO: samesite 옵션?
     private Cookie makeRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
         Cookie cookie = new Cookie(REFRESH_TOKEN_COOKIE, refreshToken);
         cookie.setHttpOnly(true);

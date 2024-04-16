@@ -1,11 +1,17 @@
 spring:
+  config:
+    activate:
+      on-profile: local
+
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:~/pub-sub
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/pub_sub?serverTimezone=Asia/Seoul
+    username: root
+    password: ${MYSQL_PASSWORD}
 
   jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: create
     properties:
@@ -13,7 +19,3 @@ spring:
         show_sql: true
         format_sql: true
     defer-datasource-initialization: true
-
-  h2:
-    console:
-      enabled: true
