@@ -1,4 +1,4 @@
-package com.stemm.pubsub.service.auth.config;
+package com.stemm.pubsub.service.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stemm.pubsub.service.auth.handler.LoginFailureHandler;
