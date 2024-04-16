@@ -1,11 +1,7 @@
 spring:
   profiles:
-    default: local
+    active: local
     group:
-      local: local, common
-      prod: prod, common
-    include: oauth, jwt
-
-  jpa:
-    hibernate:
-      ddl-auto: none
+      local: local
+      prod: prod
+    include: common, oauth, jwt
