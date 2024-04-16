@@ -125,7 +125,7 @@ public class TokenService {
             log.error("유효한 유저 id가 아닙니다: {}", e.getMessage());
             return Optional.empty();
         } catch (JWTVerificationException e) {
-            log.info("access token이 유효하지 않습니다: {}", e.getMessage());
+            log.error("access token이 유효하지 않습니다: {}", e.getMessage());
             return Optional.empty();
         }
     }

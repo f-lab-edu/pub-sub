@@ -31,7 +31,7 @@ public class User extends BaseEntity {
     private Membership membership;
 
     @Column(nullable = false, unique = true, length = 100)
-    private String nickname;
+    private String nickname;  // 아이디
 
     @Column(nullable = false)
     private String name;

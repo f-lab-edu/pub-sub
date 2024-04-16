@@ -4,9 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stemm.pubsub.service.auth.handler.LoginFailureHandler;
 import com.stemm.pubsub.service.auth.handler.LoginSuccessHandler;
 import com.stemm.pubsub.service.auth.json.JsonProcessingFilter;
-import com.stemm.pubsub.service.auth.oauth.CustomOAuth2UserService;
-import com.stemm.pubsub.service.auth.oauth.OAuth2LoginFailureHandler;
-import com.stemm.pubsub.service.auth.oauth.OAuth2LoginSuccessHandler;
 import com.stemm.pubsub.service.auth.token.TokenProcessingFilter;
 import com.stemm.pubsub.service.auth.token.TokenService;
 import com.stemm.pubsub.service.user.repository.user.UserRepository;
@@ -37,9 +34,6 @@ public class SecurityConfig {
     private final TokenService tokenService;
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
-    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-    private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
-    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
