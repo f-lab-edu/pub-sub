@@ -37,11 +37,11 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+        return http
             .authorizeHttpRequests(registry -> registry
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/css/**", "/images/**", "/js/**", "/favicon.ico").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/h2-console/**", "/error").permitAll()
                 .requestMatchers("/login", "/signup").permitAll()
                 .anyRequest().authenticated()
             )
@@ -53,9 +53,8 @@ public class SecurityConfig {
             .headers(configurer -> configurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
             .sessionManagement(configurer -> configurer.sessionCreationPolicy(STATELESS))
             .addFilterAfter(jsonProcessingFilter(), LogoutFilter.class)
-            .addFilterBefore(tokenProcessingFilter(), JsonProcessingFilter.class);
-
-        return http.build();
+            .addFilterBefore(tokenProcessingFilter(), JsonProcessingFilter.class)
+            .build();
     }
 
     @Bean
