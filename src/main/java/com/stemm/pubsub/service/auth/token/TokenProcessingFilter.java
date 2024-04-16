@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +18,6 @@ import java.util.Collections;
 import java.util.Optional;
 
 import static com.stemm.pubsub.service.user.entity.Role.USER;
-import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -29,9 +29,9 @@ public class TokenProcessingFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(
-        HttpServletRequest request,
-        HttpServletResponse response,
-        FilterChain filterChain
+        @NonNull HttpServletRequest request,
+        @NonNull HttpServletResponse response,
+        @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         if (isWhitelist(request.getRequestURI())) {
             filterChain.doFilter(request, response);
@@ -57,9 +57,8 @@ public class TokenProcessingFilter extends OncePerRequestFilter {
             return;
         }
 
-        // TODO: 어느 필터에서 request reject 해야하나? (일단 여기서 함)
-//        rejectRequest(response);
-        filterChain.doFilter(request, response);
+        // 토큰 존재하지 않으면 로그인 페이지로 redirect
+        redirectToLogin(response);
     }
 
     private boolean isWhitelist(String requestUri) {
@@ -106,8 +105,7 @@ public class TokenProcessingFilter extends OncePerRequestFilter {
         tokenService.updateRefreshToken(userId, reissuedRefreshToken);
     }
 
-    private void rejectRequest(HttpServletResponse response) throws IOException {
-        log.info("토큰을 확인해주세요.");
-        response.sendError(SC_UNAUTHORIZED, "토큰을 확인해주세요.");
+    private void redirectToLogin(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/login");
     }
 }
