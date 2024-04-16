@@ -26,11 +26,11 @@ import static jakarta.servlet.http.HttpServletResponse.SC_OK;
 @Getter
 public class TokenService {
 
-    private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final String BEARER_PREFIX = "Bearer ";
-    private static final String REFRESH_TOKEN_COOKIE = "refreshToken";
-    private static final String URI_ALL = "/";
-    private static final int COOKIE_EXPIRY = 7 * 24 * 60 * 60;  // 7일
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String BEARER_PREFIX = "Bearer ";
+    public static final String REFRESH_TOKEN_COOKIE = "refreshToken";
+    public static final String URI_ALL = "/";
+    public static final int COOKIE_EXPIRY = 7 * 24 * 60 * 60;  // 7일
 
     @Value("${jwt.secretKey}")
     private String secretKey;
