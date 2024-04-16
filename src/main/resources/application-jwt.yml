@@ -1,0 +1,8 @@
+jwt:
+  secretKey: ${JWT_SECRET_KEY}
+
+  access:
+    expiration: 3600000  # 1시간
+
+  refresh:
+    expiration: 1209600000  # 2주
