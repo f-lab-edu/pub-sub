@@ -1,5 +1,6 @@
 package com.stemm.pubsub.service.auth.token;
 
+import com.stemm.pubsub.service.auth.userdetails.CustomUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -23,9 +25,10 @@ import static com.stemm.pubsub.service.user.entity.Role.USER;
 @RequiredArgsConstructor
 public class TokenProcessingFilter extends OncePerRequestFilter {
 
-    private static final String[] whitelist = {"/signup", "/login", "/logout"};
+    private static final String[] whitelist = {"/signup", "/login"};
 
     private final TokenService tokenService;
+    private final UserDetailsService customUserDetailsService;
 
     @Override
     protected void doFilterInternal(
@@ -43,8 +46,8 @@ public class TokenProcessingFilter extends OncePerRequestFilter {
 
         // access token 유효한 경우
         if (accessToken.isPresent() && isValidToken(accessToken.get())) {
-            Optional<Long> userId = extractUserId(accessToken.get());
-            userId.ifPresent(id -> authenticateUser(id));
+            Optional<String> nickname = extractNickname(accessToken.get());
+            nickname.ifPresent(this::authenticateUser);
             filterChain.doFilter(request, response);
             return;
         }
@@ -53,7 +56,12 @@ public class TokenProcessingFilter extends OncePerRequestFilter {
         // FIXME: refresh token은 있지만 유효하지 않은 경우(e.g. 만료, 위변조)도 포함하기 때문에 위변조된 경우 보안에 취약할 수 있습니다.
         if (refreshToken.isPresent()) {
             Optional<Long> userId = extractUserId(refreshToken.get());
-            userId.ifPresent(id -> reissueTokens(response, id));
+            Optional<String> nickname = extractNickname(refreshToken.get());
+
+            if (userId.isPresent() && nickname.isPresent()) {
+                reissueTokens(response, userId.get(), nickname.get());
+            }
+
             return;
         }
 
@@ -73,34 +81,39 @@ public class TokenProcessingFilter extends OncePerRequestFilter {
         return tokenService.extractUserId(token);
     }
 
+    private Optional<String> extractNickname(String token) {
+        return tokenService.extractNickname(token);
+    }
+
     /**
      * 인증된 유저를 security context에 저장합니다.
      */
-    private void authenticateUser(Long userId) {
-        SecurityContextHolder.getContext()
-            .setAuthentication(
-                UsernamePasswordAuthenticationToken.authenticated(
-                    userId,
-                    null,
-                    Collections.singletonList(new SimpleGrantedAuthority(USER.getKey()))
-                )
-            );
+    private void authenticateUser(String nickname) {
+        CustomUserDetails customUserDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(nickname);
+
+        SecurityContextHolder.getContext().setAuthentication(
+            UsernamePasswordAuthenticationToken.authenticated(
+                customUserDetails,
+                null,
+                Collections.singletonList(new SimpleGrantedAuthority(USER.getKey()))
+            )
+        );
     }
 
-    private String reissueAccessToken(Long userId) {
-        return tokenService.createAccessToken(userId);
+    private String reissueAccessToken(Long userId, String nickname) {
+        return tokenService.createAccessToken(userId, nickname);
     }
 
-    private String reissueRefreshToken(Long userId) {
-        return tokenService.createRefreshToken(userId);
+    private String reissueRefreshToken(Long userId, String nickname) {
+        return tokenService.createRefreshToken(userId, nickname);
     }
 
     /**
      * 클라이언트에게 access token과 refresh token을 RTR 방식으로 재발급합니다.
      */
-    private void reissueTokens(HttpServletResponse response, Long userId) {
-        String reissuedAccessToken = reissueAccessToken(userId);
-        String reissuedRefreshToken = reissueRefreshToken(userId);
+    private void reissueTokens(HttpServletResponse response, Long userId, String nickname) {
+        String reissuedAccessToken = reissueAccessToken(userId, nickname);
+        String reissuedRefreshToken = reissueRefreshToken(userId, nickname);
         tokenService.sendAccessTokenAndRefreshToken(response, reissuedAccessToken, reissuedRefreshToken);
         tokenService.updateRefreshToken(userId, reissuedRefreshToken);
     }
