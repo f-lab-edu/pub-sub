@@ -18,7 +18,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void signUp(SignUpRequest signUpRequest) throws Exception {
+    public void signUp(SignUpRequest signUpRequest) {
         validateSignUp(signUpRequest);
 
         User user = User.builder()
@@ -36,7 +36,7 @@ public class AuthService {
     /**
      * 닉네임, 이메일에 대한 중복 검사를 수행합니다.
      */
-    private void validateSignUp(SignUpRequest signUpRequest) throws Exception {
+    private void validateSignUp(SignUpRequest signUpRequest) {
         if (userRepository.findByNickname(signUpRequest.nickname()).isPresent()) {
             throw new DuplicateValueException("중복되는 닉네임입니다.");
         }
