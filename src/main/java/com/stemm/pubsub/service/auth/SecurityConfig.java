@@ -39,7 +39,6 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
             .authorizeHttpRequests(registry -> registry
-                .requestMatchers("/").permitAll()
                 .requestMatchers("/css/**", "/images/**", "/js/**", "/favicon.ico").permitAll()
                 .requestMatchers("/h2-console/**", "/error").permitAll()
                 .requestMatchers("/login", "/signup").permitAll()
@@ -91,6 +90,6 @@ public class SecurityConfig {
 
     @Bean
     public TokenProcessingFilter tokenProcessingFilter() {
-        return new TokenProcessingFilter(tokenService);
+        return new TokenProcessingFilter(tokenService, customUserDetailsService);
     }
 }
