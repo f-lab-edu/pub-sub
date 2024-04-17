@@ -26,6 +26,7 @@ import static jakarta.servlet.http.HttpServletResponse.SC_OK;
 @Getter
 public class TokenService {
 
+    public static final String NICKNAME = "nickname";
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String BEARER_PREFIX = "Bearer ";
     public static final String REFRESH_TOKEN_COOKIE = "refreshToken";
@@ -43,17 +44,19 @@ public class TokenService {
 
     private final UserRepository userRepository;
 
-    public String createAccessToken(Long userId) {
+    public String createAccessToken(Long userId, String nickname) {
         return JWT.create()
             .withSubject(String.valueOf(userId))
             .withExpiresAt(calculateTokenExpiry(accessTokenExpirationPeriod))
+            .withClaim(NICKNAME, nickname)
             .sign(HMAC512(secretKey));
     }
 
-    public String createRefreshToken(Long userId) {
+    public String createRefreshToken(Long userId, String nickname) {
         return JWT.create()
             .withSubject(String.valueOf(userId))
             .withExpiresAt(calculateTokenExpiry(refreshTokenExpirationPeriod))
+            .withClaim(NICKNAME, nickname)
             .sign(HMAC512(secretKey));
     }
 
@@ -92,7 +95,7 @@ public class TokenService {
             JWT.require(HMAC512(secretKey)).build().verify(token);
             return true;
         } catch (JWTVerificationException e) {
-            log.error("유효하지 않은 토큰입니다. {}", e.getMessage());
+            log.error("유효하지 않은 토큰입니다: {}", e.getMessage());
             return false;
         }
     }
@@ -117,10 +120,25 @@ public class TokenService {
             String subject = JWT.require(HMAC512(secretKey)).build().verify(token).getSubject();
             return Optional.ofNullable(subject).map(Long::valueOf);
         } catch (NumberFormatException e) {
-            log.error("유효한 유저 id가 아닙니다: {}", e.getMessage());
+            log.error("유효하지 않은 유저 id 입니다: {}", e.getMessage());
             return Optional.empty();
         } catch (JWTVerificationException e) {
-            log.error("access token이 유효하지 않습니다: {}", e.getMessage());
+            log.error("유효하지 않은 토큰입니다: {}", e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    public Optional<String> extractNickname(String token) {
+        try {
+            String nickname = JWT.require(HMAC512(secretKey)).build().verify(token).getClaim(NICKNAME).asString();
+
+            if (nickname != null) {
+                return Optional.of(nickname);
+            }
+
+            return Optional.empty();
+        } catch (JWTVerificationException e) {
+            log.error("유효하지 않은 토큰입니다: {}", e.getMessage());
             return Optional.empty();
         }
     }
