@@ -1,12 +1,9 @@
-package com.stemm.pubsub.service.auth.config;
+package com.stemm.pubsub.service.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stemm.pubsub.service.auth.handler.LoginFailureHandler;
 import com.stemm.pubsub.service.auth.handler.LoginSuccessHandler;
 import com.stemm.pubsub.service.auth.json.JsonProcessingFilter;
-import com.stemm.pubsub.service.auth.oauth.CustomOAuth2UserService;
-import com.stemm.pubsub.service.auth.oauth.OAuth2LoginFailureHandler;
-import com.stemm.pubsub.service.auth.oauth.OAuth2LoginSuccessHandler;
 import com.stemm.pubsub.service.auth.token.TokenProcessingFilter;
 import com.stemm.pubsub.service.auth.token.TokenService;
 import com.stemm.pubsub.service.user.repository.user.UserRepository;
@@ -37,17 +34,13 @@ public class SecurityConfig {
     private final TokenService tokenService;
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
-    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-    private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
-    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+        return http
             .authorizeHttpRequests(registry -> registry
-                .requestMatchers("/").permitAll()
                 .requestMatchers("/css/**", "/images/**", "/js/**", "/favicon.ico").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/h2-console/**", "/error").permitAll()
                 .requestMatchers("/login", "/signup").permitAll()
                 .anyRequest().authenticated()
             )
@@ -59,9 +52,8 @@ public class SecurityConfig {
             .headers(configurer -> configurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
             .sessionManagement(configurer -> configurer.sessionCreationPolicy(STATELESS))
             .addFilterAfter(jsonProcessingFilter(), LogoutFilter.class)
-            .addFilterBefore(tokenProcessingFilter(), JsonProcessingFilter.class);
-
-        return http.build();
+            .addFilterBefore(tokenProcessingFilter(), JsonProcessingFilter.class)
+            .build();
     }
 
     @Bean
@@ -98,6 +90,6 @@ public class SecurityConfig {
 
     @Bean
     public TokenProcessingFilter tokenProcessingFilter() {
-        return new TokenProcessingFilter(tokenService);
+        return new TokenProcessingFilter(tokenService, customUserDetailsService);
     }
 }

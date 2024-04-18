@@ -18,7 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class JsonProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
-    private static final String LOGIN_URI = "/login";
+    private static final String LOGIN_URI = "/login";  // 해당 uri 요청에만 필터 작동
     private static final String POST = "POST";
     private static final String APPLICATION_JSON = "application/json";
     private static final String USERNAME = "nickname";

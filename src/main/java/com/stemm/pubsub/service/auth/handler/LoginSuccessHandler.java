@@ -24,8 +24,9 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         Authentication authentication
     ) {
         Long userId = extractUserId(authentication);
-        String accessToken = tokenService.createAccessToken(userId);
-        String refreshToken = tokenService.createRefreshToken(userId);
+        String nickname = extractNickname(authentication);
+        String accessToken = tokenService.createAccessToken(userId, nickname);
+        String refreshToken = tokenService.createRefreshToken(userId, nickname);
 
         tokenService.sendAccessTokenAndRefreshToken(response, accessToken, refreshToken);
 
@@ -41,5 +42,10 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private Long extractUserId(Authentication authentication) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         return userDetails.getUserId();
+    }
+
+    private String extractNickname(Authentication authentication) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        return userDetails.getUsername();
     }
 }

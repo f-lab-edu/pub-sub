@@ -17,16 +17,9 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // TODO: 리턴값?? custom exception 정의 및 메서드 분리
-    // TODO: 중복 체크 매번 db 접근??
     @Transactional
-    public User signUp(SignUpRequest signUpRequest) throws Exception {
-        if (userRepository.findByNickname(signUpRequest.nickname()).isPresent()) {
-            throw new Exception("이미 존재하는 닉네임입니다.");
-        }
-        if (userRepository.findByEmail(signUpRequest.email()).isPresent()) {
-            throw new Exception("이미 존재하는 이메일입니다.");
-        }
+    public void signUp(SignUpRequest signUpRequest) {
+        validateSignUp(signUpRequest);
 
         User user = User.builder()
             .nickname(signUpRequest.nickname())
@@ -37,6 +30,19 @@ public class AuthService {
             .role(USER)
             .build();
 
-        return userRepository.save(user);
+        userRepository.save(user);
+    }
+
+    /**
+     * 닉네임, 이메일에 대한 중복 검사를 수행합니다.
+     */
+    private void validateSignUp(SignUpRequest signUpRequest) {
+        if (userRepository.findByNickname(signUpRequest.nickname()).isPresent()) {
+            throw new DuplicateValueException("중복되는 닉네임입니다.");
+        }
+
+        if (userRepository.findByEmail(signUpRequest.email()).isPresent()) {
+            throw new DuplicateValueException("중복되는 이메일입니다.");
+        }
     }
 }

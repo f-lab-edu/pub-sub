@@ -26,6 +26,7 @@ import static jakarta.servlet.http.HttpServletResponse.SC_OK;
 @Getter
 public class TokenService {
 
+    public static final String NICKNAME = "nickname";
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String BEARER_PREFIX = "Bearer ";
     public static final String REFRESH_TOKEN_COOKIE = "refreshToken";
@@ -43,17 +44,19 @@ public class TokenService {
 
     private final UserRepository userRepository;
 
-    public String createAccessToken(Long userId) {
+    public String createAccessToken(Long userId, String nickname) {
         return JWT.create()
             .withSubject(String.valueOf(userId))
             .withExpiresAt(calculateTokenExpiry(accessTokenExpirationPeriod))
+            .withClaim(NICKNAME, nickname)
             .sign(HMAC512(secretKey));
     }
 
-    public String createRefreshToken(Long userId) {
+    public String createRefreshToken(Long userId, String nickname) {
         return JWT.create()
             .withSubject(String.valueOf(userId))
             .withExpiresAt(calculateTokenExpiry(refreshTokenExpirationPeriod))
+            .withClaim(NICKNAME, nickname)
             .sign(HMAC512(secretKey));
     }
 
@@ -61,13 +64,11 @@ public class TokenService {
         return new Date(System.currentTimeMillis() + tokenExpirationPeriod);
     }
 
-    // TODO: 다른 헤더들도 설정? (캐싱 방지??)
     public void sendAccessToken(HttpServletResponse response, String accessToken) {
         response.setStatus(SC_OK);
         response.setHeader(AUTHORIZATION_HEADER, BEARER_PREFIX + accessToken);
     }
 
-    // TODO: 다른 헤더들도 설정?
     public void sendAccessTokenAndRefreshToken(
         HttpServletResponse response,
         String accessToken,
@@ -77,7 +78,6 @@ public class TokenService {
         response.addCookie(makeRefreshTokenCookie(response, refreshToken));
     }
 
-    // TODO: samesite 옵션?
     private Cookie makeRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
         Cookie cookie = new Cookie(REFRESH_TOKEN_COOKIE, refreshToken);
         cookie.setHttpOnly(true);
@@ -87,7 +87,6 @@ public class TokenService {
         return cookie;
     }
 
-    // TODO: 예외처리
     /**
      * 토큰 만료, 변조 등을 검사합니다.
      */
@@ -96,7 +95,7 @@ public class TokenService {
             JWT.require(HMAC512(secretKey)).build().verify(token);
             return true;
         } catch (JWTVerificationException e) {
-            log.error("유효하지 않은 토큰입니다. {}", e.getMessage());
+            log.error("유효하지 않은 토큰입니다: {}", e.getMessage());
             return false;
         }
     }
@@ -116,22 +115,34 @@ public class TokenService {
             .map(Cookie::getValue);
     }
 
-    // TODO: 예외처리
     public Optional<Long> extractUserId(String token) {
         try {
             String subject = JWT.require(HMAC512(secretKey)).build().verify(token).getSubject();
             return Optional.ofNullable(subject).map(Long::valueOf);
         } catch (NumberFormatException e) {
-            log.error("유효한 유저 id가 아닙니다: {}", e.getMessage());
+            log.error("유효하지 않은 유저 id 입니다: {}", e.getMessage());
             return Optional.empty();
         } catch (JWTVerificationException e) {
-            log.info("access token이 유효하지 않습니다: {}", e.getMessage());
+            log.error("유효하지 않은 토큰입니다: {}", e.getMessage());
             return Optional.empty();
         }
     }
 
-    // TODO: custom exception? transactional?
-    // TODO: updateRefreshToken 로직의 책임을 엔티티, 서비스, 필터 중 어디서?
+    public Optional<String> extractNickname(String token) {
+        try {
+            String nickname = JWT.require(HMAC512(secretKey)).build().verify(token).getClaim(NICKNAME).asString();
+
+            if (nickname != null) {
+                return Optional.of(nickname);
+            }
+
+            return Optional.empty();
+        } catch (JWTVerificationException e) {
+            log.error("유효하지 않은 토큰입니다: {}", e.getMessage());
+            return Optional.empty();
+        }
+    }
+
     @Transactional
     public void updateRefreshToken(Long userId, String refreshToken) {
         userRepository.findById(userId)
