@@ -40,15 +40,15 @@
 | 멤버십 취소 | POST | /subscriptions/unsubscribe |
 
 ### 게시물
-|  | 메서드 | Endpoint | 쿼리 파라미터 |
-| --- | --- | --- | --- |
-| 메인화면 게시물 조회 | GET | / |  |
-| 게시물 작성 | POST | /posts |  |
-| 특정 게시물 조회 | GET | /posts | postId |
-| 게시물 수정 | PUT | /posts/{postId} |  |
-| 게시물 삭제 | DELETE | /posts/{postId} |  |
-| 게시물 좋아요 | POST | /likes/like |  |
-| 게시물 좋아요 취소 | POST | /likes/remove-like |  |
+|  | 메서드 | Endpoint |
+| --- | --- | --- |
+| 메인화면 게시물 조회 | GET | / |
+| 게시물 작성 | POST | /posts |
+| 특정 게시물 조회 | GET | /posts/{postId} |
+| 게시물 수정 | PUT | /posts/{postId} |
+| 게시물 삭제 | DELETE | /posts/{postId} |
+| 게시물 좋아요 | POST | /likes/like |
+| 게시물 좋아요 취소 | POST | /likes/remove-like |
 
 ### 댓글
 |  | 메서드 | Endpoint |
