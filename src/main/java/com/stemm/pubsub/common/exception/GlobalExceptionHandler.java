@@ -1,4 +1,4 @@
-package com.stemm.pubsub.common;
+package com.stemm.pubsub.common.exception;
 
 import com.stemm.pubsub.service.auth.dto.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -32,5 +32,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity
             .badRequest()
             .body(error("Validation 예외가 발생했습니다.", errors));
+    }
+
+    /**
+     * 존재하지 않는 유저에 대한 예외를 처리합니다.
+     */
+    @ExceptionHandler
+    public ResponseEntity<ApiResponse<Void>> handleUserNotFoundException(UserNotFoundException e) {
+        log.error("존재하지 않는 유저입니다. user id = {}", e.getUserId());
+
+        return ResponseEntity
+            .badRequest()
+            .body(error(e.getMessage()));
     }
 }

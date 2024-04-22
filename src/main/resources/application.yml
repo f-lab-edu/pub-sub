@@ -4,4 +4,4 @@ spring:
     group:
       local: local
       prod: prod
-    include: common, oauth, jwt
+    include: common, jwt
