@@ -1,10 +1,10 @@
-package com.stemm.pubsub.service.post.repository.post;
+package com.stemm.pubsub.service.post.dto;
 
 import com.stemm.pubsub.service.post.entity.post.Visibility;
 
 import java.time.LocalDateTime;
 
-public record PostDto(
+public record PostResponse(
     Long id,
     String nickname,
     String profileImageUrl,

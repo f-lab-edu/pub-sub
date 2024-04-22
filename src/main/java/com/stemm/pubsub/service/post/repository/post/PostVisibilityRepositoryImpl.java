@@ -32,6 +32,7 @@ public class PostVisibilityRepositoryImpl implements PostVisibilityRepository {
         post.user.profileImageUrl,
         post.content,
         post.imageUrl,
+        post.visibility,
         postLike.status.when(LIKE).then(1).otherwise(0).sum().intValue().as("likeCount"),
         postLike.status.when(DISLIKE).then(1).otherwise(0).sum().intValue().as("dislikeCount"),
         post.createdDate,
