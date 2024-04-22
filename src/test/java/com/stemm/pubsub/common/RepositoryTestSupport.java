@@ -1,9 +1,9 @@
 package com.stemm.pubsub.common;
 
 import com.stemm.pubsub.common.config.QuerydslConfig;
-import com.stemm.pubsub.service.post.repository.PostLikeRepository;
 import com.stemm.pubsub.service.post.repository.comment.CommentRepository;
 import com.stemm.pubsub.service.post.repository.post.PostRepository;
+import com.stemm.pubsub.service.post.repository.postlike.PostLikeRepository;
 import com.stemm.pubsub.service.user.repository.membership.MembershipRepository;
 import com.stemm.pubsub.service.user.repository.subscription.SubscriptionRepository;
 import com.stemm.pubsub.service.user.repository.user.UserRepository;

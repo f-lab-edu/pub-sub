@@ -48,6 +48,7 @@ class SubscriptionUserRepositoryImplTest extends RepositoryTestSupport {
             .name(name)
             .email(email)
             .membership(membership)
+            .password("password")
             .build();
     }
 }

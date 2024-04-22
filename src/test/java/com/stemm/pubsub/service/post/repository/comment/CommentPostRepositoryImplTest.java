@@ -49,6 +49,7 @@ class CommentPostRepositoryImplTest extends RepositoryTestSupport {
             .nickname("nickname")
             .name("name")
             .email("user@me.com")
+            .password("password")
             .build();
     }
 }
