@@ -28,6 +28,7 @@ public class PostUserRepositoryImpl implements PostUserRepository {
     private final ConstructorExpression<PostDto> postDto = constructor(
         PostDto.class,
         post.id,
+        post.user.id,
         post.user.nickname,
         post.user.profileImageUrl,
         post.content,
