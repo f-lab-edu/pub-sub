@@ -11,7 +11,7 @@
 <br>
 
 ## [ERD](https://www.erdcloud.com/d/brDjdwe2aGKvc33gu)
-![pub-sub-erd](https://github.com/f-lab-edu/pub-sub/assets/65343417/d15dac22-5248-4aca-b429-c41e720488f2)
+![pub-sub-erd](https://github.com/f-lab-edu/pub-sub/assets/65343417/77434517-70a9-4f14-a2e3-c6e51a1868dc)
 
 <br>
 
@@ -45,7 +45,7 @@
 | 메인화면 게시물 조회 | GET | / |
 | 게시물 작성 | POST | /posts |
 | 특정 게시물 조회 | GET | /posts/{postId} |
-| 게시물 수정 | PATCH | /posts/{postId} |
+| 게시물 수정 | PATCH | /posts/{postId} |
 | 게시물 삭제 | DELETE | /posts/{postId} |
 | 게시물 좋아요 | POST | /likes/like |
 | 게시물 좋아요 취소 | POST | /likes/remove-like |
