@@ -7,27 +7,42 @@ import com.stemm.pubsub.service.post.dto.PostRequest;
 import com.stemm.pubsub.service.post.dto.PostResponse;
 import com.stemm.pubsub.service.post.entity.post.Post;
 import com.stemm.pubsub.service.post.entity.post.Visibility;
+import com.stemm.pubsub.service.user.entity.Membership;
 import com.stemm.pubsub.service.user.entity.User;
+import com.stemm.pubsub.service.user.entity.subscription.Subscription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 import static com.stemm.pubsub.service.post.entity.post.Visibility.PRIVATE;
 import static com.stemm.pubsub.service.post.entity.post.Visibility.PUBLIC;
+import static com.stemm.pubsub.service.user.entity.subscription.SubscriptionStatus.ACTIVE;
 import static org.assertj.core.api.Assertions.*;
 
 class PostServiceTest extends IntegrationTestSupport {
 
     User user1;
     User user2;
+    User user3;
 
     @BeforeEach
     void setUp() {
-        user1 = createUser("user1", "username1", "user1@me.com");
-        user2 = createUser("user2", "username2", "user2@me.com");
-        userRepository.saveAll(List.of(user1, user2));
+        Membership user1sMembership = new Membership("user1's membership", 10_000);
+        Membership user2sMembership = new Membership("user2's membership", 10_000);
+        membershipRepository.saveAll(List.of(user1sMembership, user2sMembership));
+
+        user1 = createUser(user1sMembership, "user1", "username1", "user1@me.com");
+        user2 = createUser(user2sMembership, "user2", "username2", "user2@me.com");
+        user3 = createUser(null, "user3", "username3", "user3@me.com");
+        userRepository.saveAll(List.of(user1, user2, user3));
+
+        Subscription user3sSubscription = new Subscription(user3, user1sMembership, ACTIVE);
+        subscriptionRepository.save(user3sSubscription);
     }
 
     @Test
@@ -178,8 +193,57 @@ class PostServiceTest extends IntegrationTestSupport {
             .hasMessage("권한이 없는 사용자입니다.");
     }
 
-    private User createUser(String nickname, String name, String email) {
+    @Test
+    @DisplayName("사용자가 구독 중인 크리에이터의 멤버십(private) 게시물을 조회합니다.")
+    void getSubscribingMembershipPosts() {
+        // given
+        Post post1 = createPost(user1, "post1", PRIVATE);
+        Post post2 = createPost(user1, "post2", PUBLIC);
+        Post post3 = createPost(user2, "post3", PRIVATE);
+        Post post4 = createPost(user2, "post4", PUBLIC);
+        postRepository.saveAll(List.of(post1, post2, post3, post4));
+
+        Pageable pageable = PageRequest.of(0, 10);
+
+        // when
+        Page<PostResponse> posts = postService.getSubscribingMembershipPosts(user3.getId(), pageable);
+
+        // then
+        assertThat(posts.getContent())
+            .hasSize(1)
+            .extracting("content", "visibility")
+            .containsExactly(tuple("post1", PRIVATE));
+    }
+
+    @Test
+    @DisplayName("전체 `PUBLIC` 게시물을 조회합니다.")
+    void getAllPublicPosts() {
+        // given
+        Post post1 = createPost(user1, "post1", PRIVATE);
+        Post post2 = createPost(user1, "post2", PUBLIC);
+        Post post3 = createPost(user2, "post3", PUBLIC);
+        Post post4 = createPost(user2, "post4", PUBLIC);
+        postRepository.saveAll(List.of(post1, post2, post3, post4));
+
+        Pageable pageable = PageRequest.of(0, 10);
+
+        // when
+        Page<PostResponse> posts = postService.getAllPublicPosts(pageable);
+
+        // then
+        assertThat(posts.getContent())
+            .hasSize(3)
+            .extracting("content", "visibility")
+            .containsExactlyInAnyOrder(
+                tuple("post2", PUBLIC),
+                tuple("post3", PUBLIC),
+                tuple("post4", PUBLIC)
+            );
+    }
+
+    private User createUser(Membership membership, String nickname, String name, String email) {
         return User.builder()
+            .membership(membership)
             .nickname(nickname)
             .name(name)
             .email(email)
