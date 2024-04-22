@@ -42,7 +42,8 @@
 ### 게시물
 |  | 메서드 | Endpoint |
 | --- | --- | --- |
-| 메인화면 게시물 조회 | GET | / |
+| Public 게시물 조회 | GET | / |
+| 구독중인 private 게시물 조회 | GET | /subscribed |
 | 게시물 작성 | POST | /posts |
 | 특정 게시물 조회 | GET | /posts/{postId} |
 | 게시물 수정 | PATCH | /posts/{postId} |
