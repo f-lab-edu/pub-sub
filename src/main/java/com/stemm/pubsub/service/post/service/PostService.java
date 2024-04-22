@@ -23,12 +23,14 @@ public class PostService {
     private final PostLikeRepository postLikeRepository;
     private final UserRepository userRepository;
 
+    private final PostMapper postMapper;
+
     // TODO: 메인화면에서 쓸 게시물 (public, private) 조회
 
     @Transactional
     public Long createPost(PostRequest postRequest, Long userId) {
         User user = getUser(userId);
-        Post post = toEntity(user, postRequest);
+        Post post = postMapper.toEntity(user, postRequest);
         Post savedPost = postRepository.save(post);
         return savedPost.getId();
     }
@@ -36,7 +38,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public PostResponse getPost(Long postId) {
         PostDto postDto = getPostDto(postId);
-        return toPostResponse(postDto);
+        return postMapper.toPostResponse(postDto);
     }
 
     // TODO: like count, dislike count 어떻게 처리하는게 좋을까...
@@ -45,7 +47,7 @@ public class PostService {
         Post post = getPostEntity(postId);
         validateUser(userId, post);
         post.update(postRequest.content(), postRequest.imageUrl(), postRequest.visibility());
-        return toPostResponse(post, getPostLikeDto(postId));
+        return postMapper.toPostResponse(post, getPostLikeDto(postId));
     }
 
     // TODO: Post 전체가 아닌 id만 가져오도록 변경?
@@ -79,54 +81,5 @@ public class PostService {
 
     private PostLikeDto getPostLikeDto(Long postId) {
         return postLikeRepository.findLikeAndDislikeCountByPostId(postId);
-    }
-
-    // TODO: 변환 메서드들 서비스에서 말고 따로
-    private Post toEntity(User user, PostRequest postRequest) {
-        return new Post(
-            user,
-            postRequest.content(),
-            postRequest.imageUrl(),
-            postRequest.visibility()
-        );
-    }
-
-    private Post toEntity(User user, PostDto postDto) {
-        return new Post(
-            user,
-            postDto.content(),
-            postDto.imageUrl(),
-            postDto.visibility()
-        );
-    }
-
-    private PostResponse toPostResponse(PostDto postDto) {
-        return new PostResponse(
-            postDto.id(),
-            postDto.nickname(),
-            postDto.profileImageUrl(),
-            postDto.content(),
-            postDto.imageUrl(),
-            postDto.visibility(),
-            postDto.likeCount(),
-            postDto.dislikeCount(),
-            postDto.createdDate(),
-            postDto.lastModifiedDate()
-        );
-    }
-
-    private PostResponse toPostResponse(Post post, PostLikeDto postLikeDto) {
-        return new PostResponse(
-            post.getId(),
-            post.getUser().getNickname(),
-            post.getUser().getProfileImageUrl(),
-            post.getContent(),
-            post.getImageUrl(),
-            post.getVisibility(),
-            postLikeDto.likeCount(),
-            postLikeDto.dislikeCount(),
-            post.getCreatedDate(),
-            post.getLastModifiedDate()
-        );
     }
 }
