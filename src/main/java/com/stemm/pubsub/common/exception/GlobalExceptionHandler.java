@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.stemm.pubsub.service.auth.dto.ApiResponse.error;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 @Slf4j
 @RestControllerAdvice
@@ -43,6 +44,18 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
             .badRequest()
+            .body(error(e.getMessage()));
+    }
+
+    /**
+     * 인가되지 않은 유저에 대한 예외를 처리합니다.
+     */
+    @ExceptionHandler
+    public ResponseEntity<ApiResponse<Void>> handleUnauthorizedUserException(UnauthorizedUserException e) {
+        log.error("권한이 없는 유저입니다. user id = {}", e.getUserId());
+
+        return ResponseEntity
+            .status(FORBIDDEN)
             .body(error(e.getMessage()));
     }
 }
