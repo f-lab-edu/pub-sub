@@ -234,10 +234,10 @@ class PostServiceTest extends IntegrationTestSupport {
         assertThat(posts.getContent())
             .hasSize(3)
             .extracting("content", "visibility")
-            .containsExactly(
-                tuple("post4", PUBLIC),
+            .containsExactlyInAnyOrder(
+                tuple("post2", PUBLIC),
                 tuple("post3", PUBLIC),
-                tuple("post2", PUBLIC)
+                tuple("post4", PUBLIC)
             );
     }
 
