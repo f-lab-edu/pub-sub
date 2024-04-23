@@ -1,6 +1,6 @@
 package com.stemm.pubsub.common.exception;
 
-import com.stemm.pubsub.service.auth.dto.ApiResponse;
+import com.stemm.pubsub.common.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.stemm.pubsub.service.auth.dto.ApiResponse.error;
+import static com.stemm.pubsub.common.ApiResponse.error;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 @Slf4j

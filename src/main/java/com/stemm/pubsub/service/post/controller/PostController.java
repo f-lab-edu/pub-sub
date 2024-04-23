@@ -1,6 +1,6 @@
 package com.stemm.pubsub.service.post.controller;
 
-import com.stemm.pubsub.service.auth.dto.ApiResponse;
+import com.stemm.pubsub.common.ApiResponse;
 import com.stemm.pubsub.service.auth.userdetails.CustomUserDetails;
 import com.stemm.pubsub.service.post.dto.PostRequest;
 import com.stemm.pubsub.service.post.dto.PostResponse;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
-import static com.stemm.pubsub.service.auth.dto.ApiResponse.error;
-import static com.stemm.pubsub.service.auth.dto.ApiResponse.success;
+import static com.stemm.pubsub.common.ApiResponse.error;
+import static com.stemm.pubsub.common.ApiResponse.success;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Slf4j

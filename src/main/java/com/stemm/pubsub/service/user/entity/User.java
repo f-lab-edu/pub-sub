@@ -59,6 +59,7 @@ public class User extends BaseEntity {
 
     @Builder
     private User(
+        Long id,
         Membership membership,
         String nickname,
         String name,
@@ -71,6 +72,7 @@ public class User extends BaseEntity {
         String providerId,
         String refreshToken
     ) {
+        this.id = id;
         this.membership = membership;
         this.nickname = nickname;
         this.name = name;

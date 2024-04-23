@@ -1,4 +1,4 @@
-package com.stemm.pubsub.service.auth.dto;
+package com.stemm.pubsub.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
