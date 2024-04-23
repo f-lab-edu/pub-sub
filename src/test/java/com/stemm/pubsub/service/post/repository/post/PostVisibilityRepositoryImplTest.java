@@ -103,6 +103,7 @@ class PostVisibilityRepositoryImplTest extends RepositoryTestSupport {
             .nickname(nickname)
             .name(name)
             .email(email)
+            .password("password")
             .build();
     }
 }

@@ -41,4 +41,10 @@ public class Post extends BaseEntity {
         this.imageUrl = imageUrl;
         this.visibility = visibility;
     }
+
+    public void update(String content, String imageUrl, Visibility visibility) {
+        this.content = content;
+        this.imageUrl = imageUrl;
+        this.visibility = visibility;
+    }
 }

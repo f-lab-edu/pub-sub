@@ -1,22 +1,17 @@
 package com.stemm.pubsub.common;
 
-import com.stemm.pubsub.common.config.QuerydslConfig;
-import com.stemm.pubsub.service.post.repository.comment.CommentRepository;
 import com.stemm.pubsub.service.post.repository.post.PostRepository;
-import com.stemm.pubsub.service.post.repository.postlike.PostLikeRepository;
+import com.stemm.pubsub.service.post.service.PostService;
 import com.stemm.pubsub.service.user.repository.membership.MembershipRepository;
 import com.stemm.pubsub.service.user.repository.subscription.SubscriptionRepository;
 import com.stemm.pubsub.service.user.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-@DataJpaTestWithAuditing
-@Import(QuerydslConfig.class)
-public abstract class RepositoryTestSupport {
-    @Autowired
-    protected TestEntityManager entityManager;
-
+@SpringBootTest
+@Transactional
+public abstract class IntegrationTestSupport {
     @Autowired
     protected UserRepository userRepository;
 
@@ -30,8 +25,5 @@ public abstract class RepositoryTestSupport {
     protected PostRepository postRepository;
 
     @Autowired
-    protected PostLikeRepository postLikeRepository;
-
-    @Autowired
-    protected CommentRepository commentRepository;
+    protected PostService postService;
 }

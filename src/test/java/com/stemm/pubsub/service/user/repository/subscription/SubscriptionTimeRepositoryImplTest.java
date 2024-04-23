@@ -80,6 +80,7 @@ class SubscriptionTimeRepositoryImplTest extends RepositoryTestSupport {
             .nickname("a")
             .name("user")
             .email("a@me.com")
+            .password("password")
             .build();
     }
 }

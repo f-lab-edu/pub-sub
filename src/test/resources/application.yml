@@ -10,3 +10,12 @@ spring:
   sql:
     init:
       mode: never
+
+jwt:
+  secretKey: ${JWT_SECRET_KEY}
+
+  access:
+    expiration: 1800000  # 30분
+
+  refresh:
+    expiration: 1209600000  # 2주

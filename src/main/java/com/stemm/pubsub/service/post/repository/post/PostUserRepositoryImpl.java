@@ -28,6 +28,7 @@ public class PostUserRepositoryImpl implements PostUserRepository {
     private final ConstructorExpression<PostDto> postDto = constructor(
         PostDto.class,
         post.id,
+        post.user.id,
         post.user.nickname,
         post.user.profileImageUrl,
         post.content,
@@ -47,6 +48,16 @@ public class PostUserRepositoryImpl implements PostUserRepository {
     @Override
     public Page<PostDto> findPrivatePostsByUserId(Long userId, Pageable pageable) {
         return getPostDtos(userId, pageable, PRIVATE);
+    }
+
+    @Override
+    public Page<PostDto> findPublicPostsByUserIds(List<Long> userIds, Pageable pageable) {
+        return getPostDtos(userIds,  pageable, PUBLIC);
+    }
+
+    @Override
+    public Page<PostDto> findPrivatePostsByUserIds(List<Long> userIds, Pageable pageable) {
+        return getPostDtos(userIds,  pageable, PRIVATE);
     }
 
     private Page<PostDto> getPostDtos(Long userId, Pageable pageable, Visibility visibility) {
@@ -69,8 +80,32 @@ public class PostUserRepositoryImpl implements PostUserRepository {
         return getPage(content, pageable, countQuery::fetchOne);
     }
 
+    private Page<PostDto> getPostDtos(List<Long> userIds, Pageable pageable, Visibility visibility) {
+        List<PostDto> content = queryFactory
+            .select(postDto)
+            .from(post)
+            .leftJoin(postLike).on(post.id.eq(postLike.post.id))
+            .where(userIdsIn(userIds), visibilityEquals(visibility))
+            .groupBy(post.id)
+            .orderBy(post.createdDate.desc())
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+            .select(post.count())
+            .from(post)
+            .where(post.user.id.in(userIds), visibilityEquals(visibility));
+
+        return getPage(content, pageable, countQuery::fetchOne);
+    }
+
     private BooleanExpression userIdEquals(Long userId) {
         return post.user.id.eq(userId);
+    }
+
+    private BooleanExpression userIdsIn(List<Long> userIds) {
+        return post.user.id.in(userIds);
     }
 
     private BooleanExpression visibilityEquals(Visibility visibility) {

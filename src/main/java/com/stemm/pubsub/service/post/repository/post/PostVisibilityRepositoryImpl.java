@@ -28,6 +28,7 @@ public class PostVisibilityRepositoryImpl implements PostVisibilityRepository {
     private final ConstructorExpression<PostDto> postDto = constructor(
         PostDto.class,
         post.id,
+        post.user.id,
         post.user.nickname,
         post.user.profileImageUrl,
         post.content,
