@@ -1,6 +1,6 @@
 package com.stemm.pubsub.service.auth;
 
-import com.stemm.pubsub.service.auth.dto.ApiResponse;
+import com.stemm.pubsub.common.ApiResponse;
 import com.stemm.pubsub.service.auth.dto.SignUpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.stemm.pubsub.service.auth.dto.ApiResponse.failure;
-import static com.stemm.pubsub.service.auth.dto.ApiResponse.success;
+import static com.stemm.pubsub.common.ApiResponse.failure;
+import static com.stemm.pubsub.common.ApiResponse.success;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
