@@ -87,10 +87,6 @@ class PostControllerTest extends ControllerTestSupport {
             .andExpect(jsonPath("$.message").value("게시물이 생성되었습니다."));
     }
 
-    private PostResponse createPostResponse(Long id, String nickname, String content, Visibility visibility) {
-        return new PostResponse(id, nickname, null, content, null, visibility, 0, 0, now(), now());
-    }
-
     @Test
     @DisplayName("게시물의 내용은 비어 있을 수 없습니다.")
     void cantCreatePostWithEmptyContent() throws Exception {
@@ -123,5 +119,9 @@ class PostControllerTest extends ControllerTestSupport {
             .andDo(print())
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.error[0]").value("게시물의 공개 범위는 PUBLIC 또는 PRIVATE 이어야 합니다."));
+    }
+
+    private PostResponse createPostResponse(Long id, String nickname, String content, Visibility visibility) {
+        return new PostResponse(id, nickname, null, content, null, visibility, 0, 0, now(), now());
     }
 }
