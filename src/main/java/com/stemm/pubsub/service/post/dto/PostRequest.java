@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record PostRequest(
-    @NotBlank(message = "내용은 비어 있을 수 없습니다.")
+    @NotBlank(message = "게시물의 내용은 비어 있을 수 없습니다.")
     String content,
 
     String imageUrl,
