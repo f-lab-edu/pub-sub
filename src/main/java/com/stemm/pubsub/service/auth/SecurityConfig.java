@@ -40,7 +40,7 @@ public class SecurityConfig {
         return http
             .authorizeHttpRequests(registry -> registry
                 .requestMatchers("/css/**", "/images/**", "/js/**", "/favicon.ico").permitAll()
-                .requestMatchers("/h2-console/**", "/error").permitAll()
+                .requestMatchers("/docs/**", "/h2-console/**", "/error").permitAll()
                 .requestMatchers("/login", "/signup").permitAll()
                 .anyRequest().authenticated()
             )
