@@ -25,7 +25,7 @@ import static com.stemm.pubsub.service.user.entity.Role.USER;
 @RequiredArgsConstructor
 public class TokenProcessingFilter extends OncePerRequestFilter {
 
-    private static final String[] whitelist = {"/signup", "/login"};
+    private static final String[] whitelist = {"/signup", "/login", "/docs/**"};
 
     private final TokenService tokenService;
     private final UserDetailsService customUserDetailsService;

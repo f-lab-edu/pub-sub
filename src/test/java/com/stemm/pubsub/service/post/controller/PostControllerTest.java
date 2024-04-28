@@ -21,7 +21,6 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,7 +42,6 @@ class PostControllerTest extends ControllerTestSupport {
 
         // when & then
         mockMvc.perform(get("/"))
-            .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.data.content").isArray());
     }
@@ -64,7 +62,6 @@ class PostControllerTest extends ControllerTestSupport {
 
         // when & then
         mockMvc.perform(get("/subscribed"))
-            .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.data.content").isArray());
     }
@@ -82,7 +79,6 @@ class PostControllerTest extends ControllerTestSupport {
                     .content(objectMapper.writeValueAsString(postRequest))
                     .contentType(APPLICATION_JSON)
             )
-            .andDo(print())
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.message").value("게시물이 생성되었습니다."));
     }
@@ -99,7 +95,6 @@ class PostControllerTest extends ControllerTestSupport {
                     .content(objectMapper.writeValueAsString(postRequest))
                     .contentType(APPLICATION_JSON)
             )
-            .andDo(print())
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.error[0]").value("게시물의 내용은 비어 있을 수 없습니다."));
     }
@@ -116,7 +111,6 @@ class PostControllerTest extends ControllerTestSupport {
                     .content(objectMapper.writeValueAsString(postRequest))
                     .contentType(APPLICATION_JSON)
             )
-            .andDo(print())
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.error[0]").value("게시물의 공개 범위는 PUBLIC 또는 PRIVATE 이어야 합니다."));
     }
