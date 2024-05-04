@@ -47,7 +47,7 @@ jobs:
         if: contains(github.ref, 'main')
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -f Dockerfile-dev -t ${{ secrets.DOCKER_USERNAME }}/pubsub-be:${{ steps.tagger.outputs.new_tag }} .
+          docker build Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/pubsub-be:${{ steps.tagger.outputs.new_tag }} .
           docker push ${{ secrets.DOCKER_USERNAME }}/pubsub-be:${{ steps.tagger.outputs.new_tag }}
 
       # deploy
@@ -56,7 +56,7 @@ jobs:
         id: deploy-prod
         if: contains(github.ref, 'main')
         with:
-          host: ${{ secrets.HOST_PROD }} # EC2 퍼블릭 IPv4 DNS
+          host: ${{ secrets.HOST_PROD }}
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           envs: GITHUB_SHA
