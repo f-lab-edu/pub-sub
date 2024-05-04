@@ -42,10 +42,14 @@ jobs:
           script: |
             set -e
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/pubsub-be:${{ github.sha }}
-            sudo docker stop $(sudo docker ps -q --filter ancestor=${{ secrets.DOCKERHUB_USERNAME }}/pubsub-be) || true
+            CONTAINERS=$(sudo docker ps -q --filter ancestor=${{ secrets.DOCKERHUB_USERNAME }}/pubsub-be)
+            if [ ! -z "$CONTAINERS" ]; then
+              sudo docker stop $CONTAINERS
+            fi
             sudo docker run -d -p 8080:8080 \
               -e JWT_SECRET_KEY='${{ secrets.JWT_SECRET_KEY }}' \
               -e DB_URL='${{ secrets.DB_URL }}' \
               -e DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
               ${{ secrets.DOCKERHUB_USERNAME }}/pubsub-be:${{ github.sha }}
             sudo docker image prune -f
+
