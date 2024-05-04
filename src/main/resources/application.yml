@@ -1,7 +1,0 @@
-spring:
-  profiles:
-    active: local
-    group:
-      local: local
-      prod: prod
-    include: common, jwt
