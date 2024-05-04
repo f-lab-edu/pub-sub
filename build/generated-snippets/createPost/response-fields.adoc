@@ -1,0 +1,12 @@
+==== Response Fields
+|===
+|Path|Type|Optional|Description
+
+
+|`+message+`
+|`+String+`
+|
+|메시지
+
+
+|===

@@ -1,0 +1,37 @@
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 670
+
+{
+  "data" : {
+    "content" : [ {
+      "id" : 1,
+      "nickname" : "nickname",
+      "profileImageUrl" : null,
+      "content" : "content of the post",
+      "imageUrl" : null,
+      "visibility" : "PUBLIC",
+      "likeCount" : 0,
+      "dislikeCount" : 0,
+      "createdDate" : "2024-05-04T16:02:37.34517",
+      "lastModifiedDate" : "2024-05-04T16:02:37.345176"
+    } ],
+    "pageable" : "INSTANCE",
+    "last" : true,
+    "totalPages" : 1,
+    "totalElements" : 1,
+    "first" : true,
+    "size" : 1,
+    "number" : 0,
+    "sort" : {
+      "empty" : true,
+      "unsorted" : true,
+      "sorted" : false
+    },
+    "numberOfElements" : 1,
+    "empty" : false
+  }
+}
+----

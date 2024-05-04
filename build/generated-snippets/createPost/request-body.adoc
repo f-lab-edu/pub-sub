@@ -1,0 +1,8 @@
+[source,json,options="nowrap"]
+----
+{
+  "content" : "content",
+  "imageUrl" : null,
+  "visibility" : "PUBLIC"
+}
+----

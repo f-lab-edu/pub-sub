@@ -1,8 +1,11 @@
 HELP.md
 
-build/
-!build/generated/
-!build/generated-snippets/
+build/classes
+build/libs
+build/reports
+build/resources
+build/test-results
+build/tmp
 
 !**/src/main/**/build/
 !**/src/test/**/build/

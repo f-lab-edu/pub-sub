@@ -1,0 +1,150 @@
+==== Response Fields
+|===
+|Path|Type|Optional|Description
+
+
+|`+data.content.[]+`
+|`+Array+`
+|
+|게시물 목록
+
+
+|`+data.content.[].id+`
+|`+Number+`
+|
+|게시물 ID
+
+
+|`+data.content.[].nickname+`
+|`+String+`
+|
+|닉네임
+
+
+|`+data.content.[].profileImageUrl+`
+|`+String+`
+|O
+|프로필 이미지 Url
+
+
+|`+data.content.[].content+`
+|`+String+`
+|
+|내용
+
+
+|`+data.content.[].imageUrl+`
+|`+String+`
+|O
+|이미지 URL
+
+
+|`+data.content.[].visibility+`
+|`+String+`
+|
+|공개 범위(PRIVATE, PUBLIC)
+
+
+|`+data.content.[].likeCount+`
+|`+Number+`
+|
+|좋아요 수
+
+
+|`+data.content.[].dislikeCount+`
+|`+Number+`
+|
+|싫어요 수
+
+
+|`+data.content.[].createdDate+`
+|`+String+`
+|
+|생성 날짜
+
+
+|`+data.content.[].lastModifiedDate+`
+|`+String+`
+|
+|마지막 수정 날짜
+
+
+|`+data.totalPages+`
+|`+Number+`
+|
+|전체 페이지 수
+
+
+|`+data.totalElements+`
+|`+Number+`
+|
+|전체 게시물 수
+
+
+|`+data.pageable+`
+|`+String+`
+|
+|현재 페이지에 대한 Pageable 인스턴스
+
+
+|`+data.last+`
+|`+Boolean+`
+|
+|마지막 페이지 여부
+
+
+|`+data.first+`
+|`+Boolean+`
+|
+|첫번째 페이지 여부
+
+
+|`+data.size+`
+|`+Number+`
+|
+|페이지에 있는 데이터 개수
+
+
+|`+data.number+`
+|`+Number+`
+|
+|현재 페이지 번호
+
+
+|`+data.sort+`
+|`+Object+`
+|
+|Sort 객체
+
+
+|`+data.sort.empty+`
+|`+Boolean+`
+|
+|empty
+
+
+|`+data.sort.sorted+`
+|`+Boolean+`
+|
+|sorted
+
+
+|`+data.sort.unsorted+`
+|`+Boolean+`
+|
+|unsorted
+
+
+|`+data.numberOfElements+`
+|`+Number+`
+|
+|현재 페이지에 실제로 있는 데이터 수
+
+
+|`+data.empty+`
+|`+Boolean+`
+|
+|현재 페이지가 비어있는지 여부
+
+
+|===

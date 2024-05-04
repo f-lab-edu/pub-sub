@@ -1,0 +1,11 @@
+[source,http,options="nowrap"]
+----
+HTTP/1.1 201 Created
+Location: /posts/1
+Content-Type: application/json
+Content-Length: 55
+
+{
+  "message" : "게시물이 생성되었습니다."
+}
+----

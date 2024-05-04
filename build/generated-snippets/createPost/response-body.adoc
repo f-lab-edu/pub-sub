@@ -1,0 +1,6 @@
+[source,json,options="nowrap"]
+----
+{
+  "message" : "게시물이 생성되었습니다."
+}
+----

@@ -1,0 +1,24 @@
+==== Request Fields
+|===
+|Path|Type|Optional|Description
+
+
+|`+content+`
+|`+String+`
+|
+|상품 타입
+
+
+|`+imageUrl+`
+|`+String+`
+|O
+|이미지 Url
+
+
+|`+visibility+`
+|`+String+`
+|
+|공개 범위
+
+
+|===
