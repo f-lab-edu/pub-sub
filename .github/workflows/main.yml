@@ -1,0 +1,51 @@
+name: CI/CD
+
+on:
+  push:
+    branches: main
+
+permissions:
+  contents: read
+
+jobs:
+  ci-cd:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Docker Build & Push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pubsub-be:${{ github.sha }}
+          platforms: linux/amd64, linux/arm64
+
+      - name: Deploy EC2 With SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST_PROD }}
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            set -e
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/pubsub-be:${{ github.sha }}
+            sudo docker stop $(sudo docker ps -q --filter ancestor=${{ secrets.DOCKERHUB_USERNAME }}/pubsub-be) || true
+            sudo docker run -d -p 8080:8080 \
+              -e JWT_SECRET_KEY='${{ secrets.JWT_SECRET_KEY }}' \
+              -e DB_URL='${{ secrets.DB_URL }}' \
+              -e DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
+              ${{ secrets.DOCKERHUB_USERNAME }}/pubsub-be:${{ github.sha }}
+            sudo docker image prune -f

@@ -1,0 +1,20 @@
+[[product-create]]
+
+=== 모든 PUBLIC 게시물 조회
+==== HTTP Request
+include::{snippets}/getAllPublicPosts/http-request.adoc[]
+include::{snippets}/getAllPublicPosts/query-parameters.adoc[]
+
+==== HTTP Response
+include::{snippets}/getAllPublicPosts/http-response.adoc[]
+include::{snippets}/getAllPublicPosts/response-fields.adoc[]
+
+
+=== 게시물 등록
+==== HTTP Request
+include::{snippets}/createPost/http-request.adoc[]
+include::{snippets}/createPost/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/createPost/http-response.adoc[]
+include::{snippets}/createPost/response-fields.adoc[]
