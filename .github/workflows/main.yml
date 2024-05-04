@@ -33,15 +33,12 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/pubsub-be:${{ github.sha }}
           platforms: linux/amd64, linux/arm64
 
-      - name: Deploy
-        uses: appleboy/ssh-action@master
-        id: deploy-prod
-        if: contains(github.ref, 'main')
+      - name: Deploy EC2 With SSH
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST_PROD }}
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
-          envs: GITHUB_SHA
           script: |
             set -e
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/pubsub-be:${{ github.sha }}
