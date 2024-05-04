@@ -30,7 +30,7 @@ jobs:
           context: .
           file: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/pubsub-be:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pubsub-be:${{ github.sha }}
           platforms: linux/amd64, linux/arm64
 
       - name: Deploy
