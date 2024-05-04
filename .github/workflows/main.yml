@@ -45,8 +45,8 @@ jobs:
             CONTAINERS=$(sudo docker ps -q --filter ancestor=${{ secrets.DOCKERHUB_USERNAME }}/pubsub-be)
             if [ ! -z "$CONTAINERS" ]; then
               sudo docker stop $CONTAINERS
+              sudo docker rm -f $CONTAINERS
             fi
-            sleep 5  # 컨테이너가 종료 후 포트 해제까지 기다림
             sudo docker run -d -p 8080:8080 \
               -e JWT_SECRET_KEY='${{ secrets.JWT_SECRET_KEY }}' \
               -e DB_URL='${{ secrets.DB_URL }}' \
