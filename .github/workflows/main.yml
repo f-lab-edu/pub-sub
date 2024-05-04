@@ -1,0 +1,72 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  CI-CD:
+    runs-on: ubuntu-latest
+    steps:
+      # github actions에서 사용할 JDK 설정
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      # gradle caching - 빌드 시간 향상
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # gradle build
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Create Release Tag
+        id: tag
+        uses: anothrNick/github-tag-action@1.26.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch  # 기본적으로 patch 버전을 증가
+          RELEASE_BRANCHES: main
+
+      # docker build & push
+      - name: Docker build & push
+        if: contains(github.ref, 'main')
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -f Dockerfile-dev -t ${{ secrets.DOCKER_USERNAME }}/pubsub-be:${{ steps.tagger.outputs.new_tag }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/pubsub-be:${{ steps.tagger.outputs.new_tag }}
+
+      # deploy
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        id: deploy-prod
+        if: contains(github.ref, 'main')
+        with:
+          host: ${{ secrets.HOST_PROD }} # EC2 퍼블릭 IPv4 DNS
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            set -e
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/pubsub-be:${{ steps.tagger.outputs.new_tag }}
+            sudo docker stop $(sudo docker ps -q --filter ancestor=${{ secrets.DOCKER_USERNAME }}/pubsub-be) || true
+            sudo docker run -d -p 8080:8080 \
+              -e JWT_SECRET_KEY='${{ secrets.JWT_SECRET_KEY }}' \
+              -e DB_URL='${{ secrets.DB_URL }}' \
+              -e DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
+              ${{ secrets.DOCKER_USERNAME }}/pubsub-be:${{ steps.tagger.outputs.new_tag }}
+            sudo docker image prune -f
