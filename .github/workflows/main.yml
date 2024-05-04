@@ -42,10 +42,8 @@ jobs:
           script: |
             set -e
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/pubsub-be:${{ github.sha }}
-            if sudo docker ps -q --filter name=pubsub-be; then
-              sudo docker stop pubsub-be
-              sudo docker rm pubsub-be
-            fi
+            sudo docker stop pubsub-be || true
+            sudo docker rm pubsub-be || true
             sudo docker run -d -p 8080:8080 --name pubsub-be \
               -e JWT_SECRET_KEY='${{ secrets.JWT_SECRET_KEY }}' \
               -e DB_URL='${{ secrets.DB_URL }}' \
